@@ -1,0 +1,73 @@
+<div ng-show="isUser">
+    <h2>Find Company Information</h2>
+    <br/>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="search">Search Text:</label>
+            <div class="col-sm-6">
+                <input type="search" class="form-control" id="search" placeholder="Required" ng-model="searchText">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="options">Search Options:</label>
+            <div class="col-sm-6">
+                <select name="selectedOption" class="form-control" id="selectedOption" ng-model="selectedOption">
+                    <option ng-repeat="option in searchOptions" value="{{option.call}}">{{option.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="country">Country:</label>
+            <div class="col-sm-6">
+                <select name="selectedCountry" class="form-control" id="selectedCountry" ng-model="selectedCountry">
+                    <option ng-repeat="option in country" value="{{option.call}}">{{option.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <div class="col-sm-offset-2 col-sm-2">
+                <button type="submit" class="btn btn-primary btn-block" ng-click="search()">Search</button>
+            </div>
+        </div>
+    </form>
+    <hr style="background: black; border:0; height:2px" />
+    <div ng-show="isFound">
+        <h3>{{foundCompany.name}}</h3>
+        <h4>{{foundCompany.industrydesc}}</h4>
+        <dl class="dl-horizontal">
+            <dt>CVR-Number:</dt>
+            <dd>{{foundCompany.vat}}</dd>
+            <dt>Address:</dt>
+            <dd>{{foundCompany.address}}</dd>
+            <dt>Zip Code:</dt>
+            <dd>{{foundCompany.zipcode}}</dd>
+            <dt>City:</dt>
+            <dd>{{foundCompany.city}}</dd>
+            <dt>Email:</dt>
+            <dd>{{foundCompany.email}}</dd>
+            <dt ng-show="isOwners">Owners:</dt>
+            <dd ng-show="isOwners" ng-repeat="owner in foundCompany.owners">{{owner.name}}</dd>
+            <dt>Start Date:</dt>
+            <dd>{{foundCompany.startdate}}</dd>
+            
+        </dl>
+        <h4>Production Units:</h4>
+        <uib-accordion>
+        <uib-accordion-group heading="{{unit.name}}" ng-repeat="unit in foundCompany.productionunits">
+            <dl class="dl-horizontal">
+                <dt>P-Number:</dt>
+                <dd>{{unit.pno}}</dd>
+                <dt>Address:</dt>
+                <dd>{{unit.address}}</dd>
+                <dt>Zip Code:</dt>
+                <dd>{{unit.zipcode}}</dd>
+                <dt>City:</dt>
+                <dd>{{unit.city}}</dd>
+                <dt>Phone:</dt>
+                <dd>{{unit.phone}}</dd>
+            </dl>
+        </uib-accordion-group>
+        </uib-accordion>
+    </div>
+</div>
+

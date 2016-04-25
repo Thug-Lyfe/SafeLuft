@@ -1,0 +1,11 @@
+<div>
+    <h2>All Users List</h2>
+    <table class="table">
+        <tr ng-repeat="user in users"> 
+            <td>{{user.username}}</td>
+            <td>{{user.roles}}</td>
+            <td><a ng-click="delete(user.username, $index)">Delete</a></td>
+        </tr>
+    </table>
+    <hr class="col-md-12" style="background: black; border:0; height:2px" />
+</div>
