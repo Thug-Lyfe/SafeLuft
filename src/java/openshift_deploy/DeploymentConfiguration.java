@@ -1,10 +1,9 @@
 package openshift_deploy;
 
-import facades.AutoUpdate;
+import entity.Role;
+import entity.User;
 import java.util.Map;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -38,8 +37,8 @@ public class DeploymentConfiguration implements ServletContextListener {
             ServletContext context = sce.getServletContext();
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
             EntityManager em = emf.createEntityManager();
-            scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new AutoUpdate(), 0, 2, TimeUnit.HOURS);
+//            scheduler = Executors.newSingleThreadScheduledExecutor();
+//        scheduler.scheduleAtFixedRate(new AutoUpdate(), 0, 2, TimeUnit.HOURS);
 
             //This flag is set in Web.xml -- Make sure to disable for a REAL system
             boolean makeTestUsers = context.getInitParameter("makeTestUsers").toLowerCase().equals("true");
