@@ -25,10 +25,21 @@ public class ServiceFacade {
     private static List<Service> airlines;
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
     
-    public static JsonObject getFlightsFromTo(String from, String to, String date, String tickets){
+    public static JsonObject getFlightsFromTo(String from, String to, String date, String tickets) throws InterruptedException{
         if(updated == false){
             update();
         }
+        List<Thread> list = new ArrayList();
+        for (int i = 0; i < airlines.size(); i++) {
+            list.add(new JsonReader(airlines.get(i).getLink(),date,from,to,tickets));
+            list.get(i).start();
+        }
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).join(1000);
+            list.get(i).get
+        }
+        
+        
         return new JsonObject();
     }
     

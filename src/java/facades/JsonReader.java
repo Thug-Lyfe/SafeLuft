@@ -22,7 +22,7 @@ import net.minidev.json.JSONObject;
  *
  * @author Warco
  */
-public class JsonReader implements Runnable {
+public class JsonReader extends Thread {
 
     private String url;
     private JsonObject flights;
@@ -31,7 +31,7 @@ public class JsonReader implements Runnable {
         return flights;
     }
 
-    public JsonReader(String url, String date, String from, String to, int tickets) {
+    public JsonReader(String url, String date, String from, String to, String tickets) {
         if (to.equals("")) {
             this.url = url + "/api/flightinfo/" + from + "/" + date + "T00:00:00.000Z/" + tickets;
         } else {
