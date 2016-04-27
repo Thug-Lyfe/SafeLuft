@@ -9,6 +9,8 @@
     <class>entity.Passenger</class>
     <class>entity.Reservation</class>
     <class>entity.Service</class>
+    <class>entity.Role</class>
+    <class>entity.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/safeluft?zeroDateTimeBehavior=convertToNull"/>
@@ -22,8 +24,15 @@
   <persistence-unit name="PU_OPENSHIFT" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <non-jta-data-source>java:/comp/env/jdbc/MySQLDS</non-jta-data-source>
-    <class>entity.User</class>
+    <class>entity.Airline</class>
+    <class>entity.Airport</class>
+    <class>entity.Flight</class>
+    <class>entity.FlightInstance</class>
+    <class>entity.Passenger</class>
+    <class>entity.Reservation</class>
     <class>entity.Role</class>
+    <class>entity.Service</class>
+    <class>entity.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
