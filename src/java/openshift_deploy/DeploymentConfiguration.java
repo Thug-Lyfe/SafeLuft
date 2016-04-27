@@ -1,7 +1,5 @@
 package openshift_deploy;
 
-import entity.Role;
-import entity.User;
 import facades.AutoUpdate;
 import java.util.Map;
 import java.util.concurrent.Executors;
