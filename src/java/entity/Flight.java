@@ -29,12 +29,21 @@ public class Flight implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int flightNumber;
+    private String flightNumber;
     
     private int seats;
+    private Airline airline;
+
+    public Airline getAirline() {
+        return airline;
+    }
+
+    public void setAirline(Airline airline) {
+        this.airline = airline;
+    }
     
-    @Temporal(javax.persistence.TemporalType.TIME)
-    Date flightTime;
+    
+    private int flightTime;
     
     @OneToMany
     private List<FlightInstance> instances = new ArrayList();
@@ -66,7 +75,7 @@ public class Flight implements Serializable {
         instances.add(fi);
     }
     
-    public int getFlightNumber() {
+    public String getFlightNumber() {
         return flightNumber;
     }
 
@@ -78,11 +87,11 @@ public class Flight implements Serializable {
         this.seats = seats;
     }
 
-    public Date getFlightTime() {
+    public int getFlightTime() {
         return flightTime;
     }
 
-    public void setFlightTime(Date flightTime) {
+    public void setFlightTime(int flightTime) {
         this.flightTime = flightTime;
     }
 
@@ -94,7 +103,7 @@ public class Flight implements Serializable {
         this.instances = instances;
     }
 
-    public void setFlightNumber(int flightNumber) {
+    public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
     }
 

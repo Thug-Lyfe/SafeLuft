@@ -16,7 +16,7 @@ import javax.persistence.Persistence;
  */
 public class SafeLufttester {
     public static void main(String[] args) {
-        Persistence.generateSchema("PU", null);
+        Persistence.generateSchema("PU-Local", null);
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-Local");
 //        EntityManager em = emf.createEntityManager();
 //        Airline safeluft = new Airline();
