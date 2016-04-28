@@ -1,5 +1,6 @@
 package openshift_deploy;
 
+import entity.Airline;
 import entity.Role;
 import entity.User;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class DeploymentConfiguration implements ServletContextListener {
             }
             Role userRole = new Role("User");
             Role adminRole = new Role("Admin");
-
+            
             User user = new User("user", PasswordStorage.createHash("test"));
             User admin = new User("admin", PasswordStorage.createHash("test"));
             User both = new User("user_admin", PasswordStorage.createHash("test"));
@@ -57,6 +58,9 @@ public class DeploymentConfiguration implements ServletContextListener {
             both.AddRole(userRole);
             both.AddRole(adminRole);
 
+            Airline airline =  new Airline();
+            airline.setWebsite("http://angularairline-plaul.rhcloud.com");
+            
             try {
                 em.getTransaction().begin();
                 em.persist(userRole);

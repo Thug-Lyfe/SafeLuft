@@ -6,7 +6,7 @@
 package facades;
 
 import com.google.gson.JsonObject;
-import entity.Service;
+import entity.Airline;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -22,31 +22,32 @@ import openshift_deploy.DeploymentConfiguration;
  */
 public class ServiceFacade {
     private static boolean updated = false;
-    private static List<Service> airlines;
+    private static List<Airline> airlines;
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
+
     
     public static JsonObject getFlightsFromTo(String from, String to, String date, String tickets) throws InterruptedException{
         if(updated == false){
             update();
         }
+        FlightData fd = new FlightData();
         List<Thread> list = new ArrayList();
         for (int i = 0; i < airlines.size(); i++) {
-            list.add(new JsonReader(airlines.get(i).getLink(),date,from,to,tickets));
+            list.add(new JsonReader(airlines.get(i).getWebsite(),date,from,to,tickets,fd));
             list.get(i).start();
         }
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).join(1000);
-            list.get(i).get
+            list.get(i).join();
         }
         
         
-        return new JsonObject();
+        return fd.getFlights();
     }
     
     public static void update(){
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-            Query q = em.createQuery("SELECT * FROM Service");
+            Query q = em.createQuery("SELECT * FROM Airline");
             airlines = q.getResultList();
             em.getTransaction().commit();
         }

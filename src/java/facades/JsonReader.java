@@ -25,18 +25,15 @@ import net.minidev.json.JSONObject;
 public class JsonReader extends Thread {
 
     private String url;
-    private JsonObject flights;
+    private FlightData fd;
 
-    public JsonObject getFlights() {
-        return flights;
-    }
-
-    public JsonReader(String url, String date, String from, String to, String tickets) {
+    public JsonReader(String url, String date, String from, String to, String tickets, FlightData fd) {
         if (to.equals("")) {
             this.url = url + "/api/flightinfo/" + from + "/" + date + "T00:00:00.000Z/" + tickets;
         } else {
             this.url = url + "/api/flightinfo/" + from + "/" + to + "/" + date + "T00:00:00.000Z/" + tickets;
         }
+        this.fd = fd;
     }
 
     private static String readAll(Reader rd) throws IOException {
@@ -48,7 +45,7 @@ public class JsonReader extends Thread {
         return sb.toString();
     }
 
-    public static JsonObject readJsonFromUrl(String url) throws IOException {
+    private static JsonObject readJsonFromUrl(String url) throws IOException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -69,7 +66,8 @@ public class JsonReader extends Thread {
     @Override
     public void run() {
         try {
-            flights = readJsonFromUrl(url);
+            JsonObject flights = readJsonFromUrl(url);
+            fd.addFlights(flights);
         } catch (IOException ex) {
             Logger.getLogger(JsonReader.class.getName()).log(Level.SEVERE, null, ex);
         }
