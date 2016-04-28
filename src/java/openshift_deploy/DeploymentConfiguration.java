@@ -1,7 +1,7 @@
 package openshift_deploy;
 
-import entity.Airline;
 import entity.Role;
+import entity.Service;
 import entity.User;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
@@ -58,14 +58,18 @@ public class DeploymentConfiguration implements ServletContextListener {
             both.AddRole(userRole);
             both.AddRole(adminRole);
 
-            Airline airline =  new Airline();
-            airline.setWebsite("http://angularairline-plaul.rhcloud.com");
+            Service serv =  new Service();
+            serv.setIATACode("DUMMYLARS");
+            serv.setCity("CPH");
+            serv.setCountry("DK");
+            serv.setWebsite("http://angularairline-plaul.rhcloud.com");
             
             try {
                 em.getTransaction().begin();
                 em.persist(userRole);
                 em.persist(adminRole);
-
+                em.persist(serv);
+                
                 em.persist(user);
                 em.persist(admin);
                 em.persist(both);

@@ -27,7 +27,6 @@ public class Airport implements Serializable {
     private String name;
     private String city;
     private String country;
-
     public Airport() {
     }
     

@@ -5,6 +5,9 @@
  */
 package rest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import facades.ServiceFacade;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -24,11 +27,13 @@ public class Service {
 
     @Context
     private UriInfo context;
-
+    private Gson gson;
     /**
      * Creates a new instance of ServiceResource
      */
     public Service() {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        
     }
 
     /**
@@ -37,10 +42,17 @@ public class Service {
      */
     @GET
     @Produces("application/json")
-    @Path("/Service/{amount}/{fromcurrency}/{tocurrency}")
-    public String getFlights(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String date, @PathParam("tickets") String tickets){
+    @Path("/{from}/{to}/{date}/{tickets}")
+    public String getFlightsFrom(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String date, @PathParam("tickets") String tickets){
+        return gson.toJson(ServiceFacade.getFlights(from, to, date, tickets));
+    }
+    
+    @GET
+    @Produces("application/json")
+    @Path("/{from}/{date}/{tickets}")
+    public String getFlights(@PathParam("from") String from, @PathParam("date") String date, @PathParam("tickets") String tickets){
         
-        throw new UnsupportedOperationException();
+        return gson.toJson(ServiceFacade.getFlights(from, "", date, tickets));
     }
 
     /**

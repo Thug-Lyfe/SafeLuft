@@ -28,17 +28,11 @@ public class Airline implements Serializable {
     @OneToMany
     private List<Flight> flights = new ArrayList();
 
-    private String website;
+    
     public Airline() {
     }
 
-    public String getWebsite() {
-        return website;
-    }
 
-    public void setWebsite(String website) {
-        this.website = website;
-    }
 
     public String getName() {
         return name;

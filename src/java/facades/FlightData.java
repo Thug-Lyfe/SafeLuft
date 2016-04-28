@@ -6,6 +6,7 @@
 package facades;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
@@ -19,9 +20,8 @@ public class FlightData {
         ja.add(newFlights);
     }
     
-    public synchronized JsonObject getFlights(){
-        JsonObject Flights = new JsonObject();
-        Flights.add("fly", ja);
-        return Flights;
+    public synchronized JsonElement getFlights(){
+        
+        return ja;
     }
 }
