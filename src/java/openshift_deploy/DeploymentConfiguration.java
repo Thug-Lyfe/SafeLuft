@@ -59,9 +59,7 @@ public class DeploymentConfiguration implements ServletContextListener {
             both.AddRole(adminRole);
 
             Service serv =  new Service();
-            serv.setIATACode("DUMMYLARS");
-            serv.setCity("CPH");
-            serv.setCountry("DK");
+            serv.setName("DUMMYLARS");
             serv.setWebsite("http://angularairline-plaul.rhcloud.com");
             
             try {

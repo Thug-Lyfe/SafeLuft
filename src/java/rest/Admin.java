@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import facades.ServiceFacade;
-import facades.UserFacade;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -42,16 +42,15 @@ public class Admin {
     }
     
     @POST
-    @Consumes("application/json")
-    public void newService(String newService) {
+    @Path("/Service")
+    @Consumes("application/json")   
+    public String newService(String newService) {
         JsonObject newServ = new JsonParser().parse(newService).getAsJsonObject();
         entity.Service serv = new entity.Service();
-        serv.setIATACode(newServ.get("IATACode").getAsString());
         serv.setName(newServ.get("name").getAsString());
-        serv.setCity(newServ.get("city").getAsString());
-        serv.setCountry(newServ.get("country").getAsString());
         serv.setWebsite(newServ.get("website").getAsString());
         ServiceFacade.addService(serv);
+        return gson.toJson(ServiceFacade.getServices());
     }
 
 }

@@ -36,10 +36,7 @@ public class Service {
         
     }
 
-    /**
-     * Retrieves representation of an instance of rest.ServiceResource
-     * @return an instance of java.lang.String
-     */
+    
     @GET
     @Produces("application/json")
     @Path("/{from}/{to}/{date}/{tickets}")

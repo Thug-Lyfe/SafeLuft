@@ -56,10 +56,11 @@ public class ServiceFacade {
     public static void update(){
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-            Query q = em.createQuery("SELECT a FROM Airport a");
+            Query q = em.createQuery("SELECT a FROM Service a");
             servs = q.getResultList();
             em.getTransaction().commit();
             em.close();
+            updated = true;
         }
     
     public static void main(String[] args){
@@ -68,13 +69,14 @@ public class ServiceFacade {
     }
     
     public static JsonElement getServices(){
+        if(updated == false){
+            update();
+        }
         JsonArray ja = new JsonArray();
         for (Service ap : servs) {
             JsonObject jo = new JsonObject();
-            jo.addProperty("IATACode", ap.getIATACode());
+            jo.addProperty("id", ap.getId());
             jo.addProperty("name", ap.getName());
-            jo.addProperty("city", ap.getCity());
-            jo.addProperty("country", ap.getCountry());
             jo.addProperty("website", ap.getWebsite());
             ja.add(jo);
         }
@@ -86,6 +88,7 @@ public class ServiceFacade {
         em.remove(em.find(Service.class, id));
         em.getTransaction().commit();
         em.close();
+        update();
     }
     public static void addService(Service serv){
         EntityManager em = emf.createEntityManager();
@@ -94,6 +97,7 @@ public class ServiceFacade {
         em.persist(serv);
         em.getTransaction().commit();
         em.close();
+        update();
     }
     }
 
