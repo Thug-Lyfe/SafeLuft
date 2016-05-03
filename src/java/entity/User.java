@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import security.IUser;
 
@@ -27,6 +28,8 @@ public class User implements Serializable, IUser {
   @JoinColumn(name = "roleName")})
   private List<Role> roles = new ArrayList();
 
+    
+  private List<UserReservation> tickets = new ArrayList();
   public User() {
   }
 
@@ -34,6 +37,14 @@ public class User implements Serializable, IUser {
     this.userName = userName;
     this.password = password;
   }
+
+    public List<UserReservation> getTickets() {
+        return tickets;
+    }
+
+    public void addTicket(UserReservation ticket) {
+        this.tickets.add(ticket);
+    }
 
   @Override
   public List<String> getRolesAsStrings(){
