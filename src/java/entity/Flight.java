@@ -10,6 +10,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,13 +27,19 @@ import javax.persistence.Temporal;
 @Entity
 @Table
 public class Flight implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String flightNumber;
-    
     private int seats;
     private Airline airline;
+    private int flightTime;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<FlightInstance> instances = new ArrayList();
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Airport from;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Airport to;
 
     public Airline getAirline() {
         return airline;
@@ -41,16 +48,6 @@ public class Flight implements Serializable {
     public void setAirline(Airline airline) {
         this.airline = airline;
     }
-    
-    
-    private int flightTime;
-    
-    @OneToMany
-    private List<FlightInstance> instances = new ArrayList();
-    @ManyToOne
-    private Airport from;
-    @ManyToOne
-    private Airport to;
 
     public Flight() {
     }
@@ -70,11 +67,11 @@ public class Flight implements Serializable {
     public void setTo(Airport to) {
         this.to = to;
     }
-    
-    public void addInstances(FlightInstance fi){
+
+    public void addInstances(FlightInstance fi) {
         instances.add(fi);
     }
-    
+
     public String getFlightNumber() {
         return flightNumber;
     }

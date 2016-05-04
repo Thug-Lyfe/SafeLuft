@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +35,6 @@ public class FlightInstance implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar currentDate;
@@ -43,7 +43,7 @@ public class FlightInstance implements Serializable {
 
     private int availabelSeats;    
     private double price;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Reservation> reservations = new ArrayList();
 
     @ManyToOne

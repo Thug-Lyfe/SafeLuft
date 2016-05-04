@@ -6,9 +6,12 @@
 package rest;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entity.FlightInstance;
+import entity.Passenger;
+import entity.Reservation;
 import facades.JsonForDummies;
 import facades.SafeLuftFacade;
 import java.util.List;
@@ -53,7 +56,7 @@ public class SafeLuftAirlines {
     @GET
     @Produces("application/json")
     @Path("flights/{from}/{to}/{date}/{tickets}")
-    public String getCurrency(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String date, @PathParam("tickets") int tickets) {
+    public String getSpecificFlight(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String date, @PathParam("tickets") int tickets) {
 
         List<FlightInstance> list = SafeLuftFacade.getSpecificFlight(from,to, date, tickets);
         return JsonForDummies.getJSON(JsonForDummies.Response1(list, tickets));
@@ -64,13 +67,13 @@ public class SafeLuftAirlines {
     @Consumes("application/json")
     @Path("reservation/{flightId}")
     public String makeReservation(String reservation, @PathParam("flightId") String flightId){
-        
         JsonObject reserv = new JsonParser().parse(reservation).getAsJsonObject();
-        String reserveeName = reserv.get("reserveeName").getAsString();
-        int seats = reserv.get("numberOfSeats").getAsInt();
-        JsonArray passengers = reserv.get("passengers").getAsJsonArray();
         
-        return "";
+        Reservation r = JsonForDummies.makeReservation(reserv);
+        
+        FlightInstance fi = SafeLuftFacade.makeReservation(flightId, r);
+        
+        return JsonForDummies.getJSON(JsonForDummies.reservationResponse(fi, reserv));
     }
 
     /**

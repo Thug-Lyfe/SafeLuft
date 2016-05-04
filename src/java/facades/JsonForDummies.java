@@ -12,6 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entity.FlightInstance;
+import entity.Passenger;
 import entity.Reservation;
 import java.util.List;
 
@@ -45,6 +46,29 @@ public class JsonForDummies {
         return res;
     }
     
+    public static JsonObject reservationResponse(FlightInstance f, JsonObject r){
+        String reserveeName = r.get("reserveeName").getAsString();
+        int seats = r.get("numberOfSeats").getAsInt();
+        
+        
+        
+        JsonObject res = new JsonObject();
+        JsonArray passengers = new JsonArray();
+        res.addProperty("flightNumber", f.getFlight().getFlightNumber());
+        res.addProperty("origin", f.getFlight().getFrom().getName()+"("+f.getFlight().getFrom().getIATACode()+")");
+        res.addProperty("destination", f.getFlight().getTo().getIATACode());
+        res.addProperty("date", f.getISO8601StringForDate());
+        res.addProperty("flightTime", f.getFlight().getFlightTime());
+        res.addProperty("numberOfSeats", seats);
+        res.addProperty("reserveeName", reserveeName);
+        
+        for (JsonElement p : r.get("passengers").getAsJsonArray()) {
+            passengers.add(p);
+        }
+        res.add("passengers", passengers);
+        return res;
+    }
+    
     
     
     public static String getJSON(JsonElement voorhees) {
@@ -52,9 +76,18 @@ public class JsonForDummies {
         return gson.toJson(voorhees);
     }
     
-    public static void makeReservation(String r){
-        JsonObject something = new JsonParser().parse(r).getAsJsonObject();
+    public static Reservation makeReservation(JsonObject r){
+        JsonArray passengers = r.get("passengers").getAsJsonArray();
         
+        Reservation res = new Reservation();
+        for (JsonElement passenger : passengers) {
+            JsonObject per = passenger.getAsJsonObject();
+            Passenger p = new Passenger();
+            p.setFirstName(per.get("firstName").getAsString());
+            p.setLastName(per.get("lastName").getAsString());
+            res.addPassengers(p);
+        }
+        return res;
         
     }
     

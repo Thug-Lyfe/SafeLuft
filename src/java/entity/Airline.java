@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Airline implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     private String name;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Flight> flights = new ArrayList();
 
     

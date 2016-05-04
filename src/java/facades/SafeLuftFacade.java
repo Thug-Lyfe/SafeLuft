@@ -60,17 +60,19 @@ public class SafeLuftFacade {
         }
     }
 
-    public static void makeReservation(String i, int s, Reservation r) {
+    public static FlightInstance makeReservation(String i, Reservation r) {
         EntityManager em = emf.createEntityManager();
         try {
             FlightInstance fi = em.find(FlightInstance.class, i);
             em.getTransaction().begin();
             fi.addReservations(r);
-            fi.setAvailabelSeats(fi.getAvailabelSeats()-s);
+            fi.setAvailabelSeats(fi.getAvailabelSeats()-r.getPassengers().size());
             em.persist(fi);
             em.getTransaction().commit();
+            return fi;
         } finally {
             em.close();
+            
         }
     }
 
