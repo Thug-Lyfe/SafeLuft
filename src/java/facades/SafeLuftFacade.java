@@ -7,9 +7,14 @@ package facades;
 
 import entity.FlightInstance;
 import entity.Reservation;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -31,7 +36,7 @@ public class SafeLuftFacade {
             List<FlightInstance> flightinstances = new ArrayList();
             for (FlightInstance f : flights) {
 
-                if (SafeLuftFacade.compare(f.getCurrentDate(), date) && f.getAvailabelSeats() >= tickets) {
+                if (SafeLuftFacade.compare(f.getDateTime(), date) && f.getAvailabelSeats() >= tickets) {
                     flightinstances.add(f);
                 }
 
@@ -49,7 +54,7 @@ public class SafeLuftFacade {
             List<FlightInstance> flightinstances = new ArrayList<>();
 
             for (FlightInstance fi : flights) {
-                if (SafeLuftFacade.compare(fi.getCurrentDate(), date) && fi.getAvailabelSeats() >= tickets) {
+                if (SafeLuftFacade.compare(fi.getDateTime(), date) && fi.getAvailabelSeats() >= tickets) {
                     flightinstances.add(fi);
                 }
             }
@@ -66,13 +71,13 @@ public class SafeLuftFacade {
             FlightInstance fi = em.find(FlightInstance.class, i);
             em.getTransaction().begin();
             fi.addReservations(r);
-            fi.setAvailabelSeats(fi.getAvailabelSeats()-r.getPassengers().size());
+            fi.setAvailabelSeats(fi.getAvailabelSeats() - r.getPassengers().size());
             em.persist(fi);
             em.getTransaction().commit();
             return fi;
         } finally {
             em.close();
-            
+
         }
     }
 
@@ -103,19 +108,23 @@ public class SafeLuftFacade {
         }
     }
 
-    public static boolean compare(Calendar c1, String c2) {
-        String[] split = c2.split("T");
-        String[] date = split[0].split("-");
-        if (c1.get(Calendar.YEAR) != Integer.parseInt(date[0])) {
-            return false;
+    public static boolean compare(Date c1, String c2) {
+        boolean sameDay = false;
+        try {
+            Date c3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(c2);
+
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+            cal1.setTime(c1);
+            cal2.setTime(c3);
+            sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+                    && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+            return sameDay;
+
+        } catch (ParseException ex) {
+            Logger.getLogger(SafeLuftFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (c1.get(Calendar.MONTH) != Integer.parseInt(date[1])) {
-            return false;
-        }
-        if (c1.get(Calendar.DAY_OF_MONTH) != Integer.parseInt(date[2])) {
-            return false;
-        }
-        return true;
+        return sameDay;
     }
 
 }

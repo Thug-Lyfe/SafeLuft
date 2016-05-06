@@ -37,11 +37,11 @@ public class FlightInstance implements Serializable {
     @Id
     private String id;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar currentDate;
+    private Date currentDate;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar time;
+    private Date time;
 
-    private int availabelSeats;    
+    private int availabelSeats;
     private double price;
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Reservation> reservations = new ArrayList();
@@ -68,19 +68,19 @@ public class FlightInstance implements Serializable {
         return id;
     }
 
-    public Calendar getCurrentDate() {
+    public Date getCurrentDate() {
         return currentDate;
     }
 
-    public void setCurrentDate(Calendar currentDate) {
+    public void setCurrentDate(Date currentDate) {
         this.currentDate = currentDate;
     }
 
-    public Calendar getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(Calendar time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
@@ -112,10 +112,18 @@ public class FlightInstance implements Serializable {
         this.id = id;
     }
 
-    public String getISO8601StringForDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return dateFormat.format(currentDate);
-    }
+    public Date getDateTime() {
+        Calendar calendarA = Calendar.getInstance();
+        calendarA.setTime(currentDate);
 
+        Calendar calendarB = Calendar.getInstance();
+        calendarB.setTime(time);
+
+        calendarA.set(Calendar.HOUR_OF_DAY, calendarB.get(Calendar.HOUR_OF_DAY));
+        calendarA.set(Calendar.MINUTE, calendarB.get(Calendar.MINUTE));
+        calendarA.set(Calendar.SECOND, calendarB.get(Calendar.SECOND));
+        calendarA.set(Calendar.MILLISECOND, calendarB.get(Calendar.MILLISECOND));
+
+        return calendarA.getTime();
+    }
 }

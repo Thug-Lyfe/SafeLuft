@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class JsonForDummies {
     
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
     
     
     public static JsonObject Response1(List<FlightInstance> f, int tickets){
@@ -33,7 +33,7 @@ public class JsonForDummies {
             JsonObject flight = new JsonObject();
             flight.addProperty("flightID", fi.getId());
             flight.addProperty("flightNumber", fi.getFlight().getFlightNumber());
-            flight.addProperty("date", fi.getISO8601StringForDate());
+            flight.addProperty("date", gson.toJson(fi.getDateTime()));
             flight.addProperty("numberOfSeats", tickets);
             flight.addProperty("totalPrice", (fi.getPrice()*tickets));
             flight.addProperty("traveltime", fi.getFlight().getFlightTime());
@@ -57,7 +57,7 @@ public class JsonForDummies {
         res.addProperty("flightNumber", f.getFlight().getFlightNumber());
         res.addProperty("origin", f.getFlight().getFrom().getName()+"("+f.getFlight().getFrom().getIATACode()+")");
         res.addProperty("destination", f.getFlight().getTo().getIATACode());
-        res.addProperty("date", f.getISO8601StringForDate());
+        res.addProperty("date", gson.toJson(f.getDateTime()));
         res.addProperty("flightTime", f.getFlight().getFlightTime());
         res.addProperty("numberOfSeats", seats);
         res.addProperty("reserveeName", reserveeName);

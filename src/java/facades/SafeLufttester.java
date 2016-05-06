@@ -9,12 +9,16 @@ import entity.Airline;
 import entity.Airport;
 import entity.Flight;
 import entity.FlightInstance;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,7 +36,7 @@ public class SafeLufttester {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Airline test = new Airline();
-        test.setName("SafeFuft");
+        test.setName("SafeFuft2");
 
         List<FlightInstance> fi = new ArrayList();
 
@@ -82,57 +86,62 @@ public class SafeLufttester {
 
             f.setSeats(r.nextInt(600) + 50);
             f.setFlightTime(r.nextInt(721) + 60);
+            f.setAirline(test);
             test.addFlights(f);
         }
 
         for (Flight f : test.getFlights()) {
 
-            for (Calendar c : getDaysBetweenDates(new Date(2016, 4, 1), new Date(2016, 7, 31))) {
-                FlightInstance flightins = new FlightInstance();
-                flightins.setId(nr.nextInt(9000)+1000 + "-" + nr.nextInt(90000000)+10000000 + "0000");
-                flightins.setAvailabelSeats(f.getSeats());
-                flightins.setCurrentDate(c);
-                flightins.setPrice(420);
-                Random r = new Random();
-                Calendar cc = new GregorianCalendar();
-                cc.set(0, 0, 0, r.nextInt(24), r.nextInt(60));
-                flightins.setTime(cc);
-                f.addInstances(flightins);
-
-                FlightInstance flightins2 = new FlightInstance();
-                flightins2.setId(nr.nextInt(9000)+1000 + "-" + nr.nextInt(90000000)+10000000 + "0000");
-                flightins2.setAvailabelSeats(f.getSeats());
-                flightins2.setCurrentDate(c);
-                flightins2.setPrice(420);
-                Calendar cc2 = new GregorianCalendar();
-                cc2.set(0, 0, 0, r.nextInt(24), r.nextInt(60));
-                flightins2.setTime(cc2);
-                f.addInstances(flightins2);
-
-                if (c.after(new GregorianCalendar(2016, 6, 19)) && c.before(new GregorianCalendar(2016, 6, 27))) {
+            try {
+                for (Date c : getDaysBetweenDates(new SimpleDateFormat("dd-M-yyyy").parse("01-04-2016"), new SimpleDateFormat("dd-M-yyyy").parse("31-07-2016"))) {
                     
-                    FlightInstance flightins3 = new FlightInstance();
-                    flightins3.setId(nr.nextInt(9000)+1000 + "-" + nr.nextInt(90000000)+10000000 + "0000");
-                    flightins3.setAvailabelSeats(f.getSeats());
-                    flightins3.setCurrentDate(c);
-                    flightins3.setPrice(420);
-                    Calendar cc3 = new GregorianCalendar();
-                    cc3.set(0, 0, 0, r.nextInt(24), r.nextInt(60));
-                    flightins3.setTime(cc3);
-                    f.addInstances(flightins3);
+                    FlightInstance flightins = new FlightInstance();
+                    flightins.setId(nr.nextInt(9000)+1000 + "-" + (nr.nextInt(90000000)+10000000) + "0000");
+                    flightins.setAvailabelSeats(f.getSeats());
+                    flightins.setCurrentDate(c);
+                    flightins.setPrice(420);
                     
+                    flightins.setFlight(f);
+                    Random r = new Random();
                     
-                    FlightInstance flightins4 = new FlightInstance();
-                    flightins4.setId(nr.nextInt(9000)+1000 + "-" + nr.nextInt(90000000)+10000000 + "0000");
-                    flightins4.setAvailabelSeats(f.getSeats());
-                    flightins4.setCurrentDate(c);
-                    flightins4.setPrice(420);
-                    Calendar cc4 = new GregorianCalendar();
-                    cc4.set(0, 0, 0, r.nextInt(24), r.nextInt(60));
-                    flightins4.setTime(cc4);
-                    f.addInstances(flightins4);
+                    flightins.setTime(new SimpleDateFormat("kk:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
+                    f.addInstances(flightins);
+                    
+                    FlightInstance flightins2 = new FlightInstance();
+                    flightins2.setId(nr.nextInt(9000)+1000 + "-" + (nr.nextInt(90000000)+10000000) + "0000");
+                    flightins2.setAvailabelSeats(f.getSeats());
+                    flightins2.setCurrentDate(c);
+                    flightins2.setPrice(420);
+                    
+                    flightins2.setFlight(f);
+                    flightins2.setTime(new SimpleDateFormat("kk:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
+                    f.addInstances(flightins2);
+                    
+                    if (c.after(new SimpleDateFormat("dd-M-yyyy").parse("19-06-2016")) && c.before(new SimpleDateFormat("dd-M-yyyy").parse("27-06-2016"))) {
+                        
+                        FlightInstance flightins3 = new FlightInstance();
+                        flightins3.setId(nr.nextInt(9000)+1000 + "-" + (nr.nextInt(90000000)+10000000) + "0000");
+                        flightins3.setAvailabelSeats(f.getSeats());
+                        flightins3.setCurrentDate(c);
+                        flightins3.setPrice(420);
+                        flightins3.setFlight(f);
+                        flightins3.setTime(new SimpleDateFormat("kk:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
+                        f.addInstances(flightins3);
+                        
+                        
+                        FlightInstance flightins4 = new FlightInstance();
+                        flightins4.setId(nr.nextInt(9000)+1000 + "-" + (nr.nextInt(90000000)+10000000) + "0000");
+                        flightins4.setAvailabelSeats(f.getSeats());
+                        flightins4.setCurrentDate(c);
+                        flightins4.setPrice(420);
+                        flightins4.setFlight(f);
+                        flightins4.setTime(new SimpleDateFormat("kk:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
+                        f.addInstances(flightins4);
+                    }
+                    
                 }
-
+            } catch (ParseException ex) {
+                Logger.getLogger(SafeLufttester.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -141,13 +150,13 @@ public class SafeLufttester {
         em.getTransaction().commit();
     }
 
-    public static List<Calendar> getDaysBetweenDates(Date startdate, Date enddate) {
-        List<Calendar> dates = new ArrayList<Calendar>();
+    public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {
+        List<Date> dates = new ArrayList<Date>();
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(startdate);
 
         while (calendar.getTime().before(enddate)) {
-            Calendar c = calendar;
+            Date c = calendar.getTime();
             dates.add(c);
             calendar.add(Calendar.DATE, 1);
 
