@@ -43,46 +43,46 @@ public class SafeLuftAirlines {
     }
 
     
-    @GET
-    @Produces("application/json")
-    @Path("flights/{from}/{date}/{tickets}")
-    public String getAnyFlight(@PathParam("from") String from, @PathParam("date") String date, @PathParam("tickets") int tickets) {
-
-        List<FlightInstance> list = SafeLuftFacade.getAnyFlight(from, date, tickets);
-        return JsonForDummies.getJSON(JsonForDummies.Response1(list, tickets));
-    }
-
-    
-    @GET
-    @Produces("application/json")
-    @Path("flights/{from}/{to}/{date}/{tickets}")
-    public String getSpecificFlight(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String date, @PathParam("tickets") int tickets) {
-
-        List<FlightInstance> list = SafeLuftFacade.getSpecificFlight(from,to, date, tickets);
-        return JsonForDummies.getJSON(JsonForDummies.Response1(list, tickets));
-    }
-    
-    @POST
-    @Produces("application/json")
-    @Consumes("application/json")
-    @Path("reservation/{flightId}")
-    public String makeReservation(String reservation, @PathParam("flightId") String flightId){
-        JsonObject reserv = new JsonParser().parse(reservation).getAsJsonObject();
-        
-        Reservation r = JsonForDummies.makeReservation(reserv);
-        
-        FlightInstance fi = SafeLuftFacade.makeReservation(flightId, r);
-        
-        return JsonForDummies.getJSON(JsonForDummies.reservationResponse(fi, reserv));
-    }
-
-    /**
-     * PUT method for updating or creating an instance of ApiResource
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
-     */
-    @PUT
-    @Consumes("application/json")
-    public void putJson(String content) {
-    }
+//    @GET
+//    @Produces("application/json")
+//    @Path("flights/{from}/{date}/{tickets}")
+//    public String getAnyFlight(@PathParam("from") String from, @PathParam("date") String date, @PathParam("tickets") int tickets) {
+//
+//        List<FlightInstance> list = SafeLuftFacade.getAnyFlight(from, date, tickets);
+//        return JsonForDummies.getJSON(JsonForDummies.Response1(list, tickets));
+//    }
+//
+//    
+//    @GET
+//    @Produces("application/json")
+//    @Path("flights/{from}/{to}/{date}/{tickets}")
+//    public String getSpecificFlight(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String date, @PathParam("tickets") int tickets) {
+//
+//        List<FlightInstance> list = SafeLuftFacade.getSpecificFlight(from,to, date, tickets);
+//        return JsonForDummies.getJSON(JsonForDummies.Response1(list, tickets));
+//    }
+//    
+//    @POST
+//    @Produces("application/json")
+//    @Consumes("application/json")
+//    @Path("reservation/{flightId}")
+//    public String makeReservation(String reservation, @PathParam("flightId") String flightId){
+//        JsonObject reserv = new JsonParser().parse(reservation).getAsJsonObject();
+//        
+//        Reservation r = JsonForDummies.makeReservation(reserv);
+//        
+//        FlightInstance fi = SafeLuftFacade.makeReservation(flightId, r);
+//        
+//        return JsonForDummies.getJSON(JsonForDummies.reservationResponse(fi, reserv));
+//    }
+//
+//    /**
+//     * PUT method for updating or creating an instance of ApiResource
+//     * @param content representation for the resource
+//     * @return an HTTP response with content of the updated or created resource.
+//     */
+//    @PUT
+//    @Consumes("application/json")
+//    public void putJson(String content) {
+//    }
 }

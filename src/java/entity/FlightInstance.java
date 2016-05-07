@@ -38,7 +38,7 @@ public class FlightInstance implements Serializable {
     private String id;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date currentDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIME)
     private Date time;
 
     private int availabelSeats;
@@ -115,10 +115,10 @@ public class FlightInstance implements Serializable {
     public Date getDateTime() {
         Calendar calendarA = Calendar.getInstance();
         calendarA.setTime(currentDate);
-
+        
         Calendar calendarB = Calendar.getInstance();
         calendarB.setTime(time);
-
+        
         calendarA.set(Calendar.HOUR_OF_DAY, calendarB.get(Calendar.HOUR_OF_DAY));
         calendarA.set(Calendar.MINUTE, calendarB.get(Calendar.MINUTE));
         calendarA.set(Calendar.SECOND, calendarB.get(Calendar.SECOND));

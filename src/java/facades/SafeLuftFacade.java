@@ -7,6 +7,7 @@ package facades;
 
 import entity.FlightInstance;
 import entity.Reservation;
+import httpErrors.FlightException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,17 +30,22 @@ public class SafeLuftFacade {
 
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
 
-    public static List<FlightInstance> getAnyFlight(String from, String date, int tickets) {
+    public static List<FlightInstance> getAnyFlight(String from, String date, int tickets) throws FlightException {
         EntityManager em = emf.createEntityManager();
         try {
             List<FlightInstance> flights = getFlightsFrom(from);
             List<FlightInstance> flightinstances = new ArrayList();
             for (FlightInstance f : flights) {
-
+                
                 if (SafeLuftFacade.compare(f.getDateTime(), date) && f.getAvailabelSeats() >= tickets) {
                     flightinstances.add(f);
+                } else if(f.getAvailabelSeats() < tickets){
+                    throw new FlightException(2,404);
                 }
 
+            }
+            if(flightinstances.size()<= 0){
+                throw new FlightException(1,404);
             }
             return flightinstances;
         } finally {
@@ -47,7 +53,7 @@ public class SafeLuftFacade {
         }
     }
 
-    public static List<FlightInstance> getSpecificFlight(String from, String to, String date, int tickets) {
+    public static List<FlightInstance> getSpecificFlight(String from, String to, String date, int tickets) throws FlightException{
         EntityManager em = emf.createEntityManager();
         try {
             List<FlightInstance> flights = getFlightsFromTo(from, to);
@@ -56,9 +62,13 @@ public class SafeLuftFacade {
             for (FlightInstance fi : flights) {
                 if (SafeLuftFacade.compare(fi.getDateTime(), date) && fi.getAvailabelSeats() >= tickets) {
                     flightinstances.add(fi);
+                }else if(fi.getAvailabelSeats() < tickets){
+                    throw new FlightException(2,404);
                 }
             }
-
+            if(flightinstances.size()<= 0){
+                throw new FlightException(1,404);
+            }
             return flightinstances;
         } finally {
             em.close();
@@ -81,20 +91,23 @@ public class SafeLuftFacade {
         }
     }
 
-    public static List<FlightInstance> getFlightsFrom(String from) {
+    public static List<FlightInstance> getFlightsFrom(String from) throws FlightException {
         EntityManager em = emf.createEntityManager();
         try {
             List<FlightInstance> flights;
             Query q = em.createQuery("SELECT f from FlightInstance f WHERE f.flight.from.IATACode = :code");
             q.setParameter("code", from);
             flights = q.getResultList();
+            if(flights.size()<= 0){
+                throw new FlightException(1,404);
+            }
             return flights;
         } finally {
             em.close();
         }
     }
 
-    public static List<FlightInstance> getFlightsFromTo(String from, String to) {
+    public static List<FlightInstance> getFlightsFromTo(String from, String to) throws FlightException {
         EntityManager em = emf.createEntityManager();
         try {
             List<FlightInstance> flights;
@@ -102,13 +115,16 @@ public class SafeLuftFacade {
             q.setParameter("codeFROM", from);
             q.setParameter("codeTO", to);
             flights = q.getResultList();
+            if(flights.size()<= 0){
+                throw new FlightException(1,404);
+            }
             return flights;
         } finally {
             em.close();
         }
     }
 
-    public static boolean compare(Date c1, String c2) {
+    public static boolean compare(Date c1, String c2) throws FlightException {
         boolean sameDay = false;
         try {
             Date c3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(c2);
@@ -122,9 +138,8 @@ public class SafeLuftFacade {
             return sameDay;
 
         } catch (ParseException ex) {
-            Logger.getLogger(SafeLuftFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new FlightException(4,500);
         }
-        return sameDay;
     }
 
 }

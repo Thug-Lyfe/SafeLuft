@@ -36,7 +36,7 @@ public class SafeLufttester {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Airline test = new Airline();
-        test.setName("SafeFuft2");
+        test.setName("SafeLuft");
 
         List<FlightInstance> fi = new ArrayList();
 
@@ -72,7 +72,7 @@ public class SafeLufttester {
         f1.setAirline(test);
         test.addFlights(f1);
 
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 150; i++) {
             Random r = new Random();
             Flight f = new Flight();
             f.setFlightNumber("AIR"+ (nr.nextInt(9000)+1000));
@@ -99,22 +99,24 @@ public class SafeLufttester {
                     flightins.setId(nr.nextInt(9000)+1000 + "-" + (nr.nextInt(90000000)+10000000) + "0000");
                     flightins.setAvailabelSeats(f.getSeats());
                     flightins.setCurrentDate(c);
+                    
                     flightins.setPrice(420);
                     
                     flightins.setFlight(f);
                     Random r = new Random();
                     
-                    flightins.setTime(new SimpleDateFormat("kk:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
+                    flightins.setTime(new SimpleDateFormat("HH:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
                     f.addInstances(flightins);
                     
                     FlightInstance flightins2 = new FlightInstance();
                     flightins2.setId(nr.nextInt(9000)+1000 + "-" + (nr.nextInt(90000000)+10000000) + "0000");
                     flightins2.setAvailabelSeats(f.getSeats());
                     flightins2.setCurrentDate(c);
+                    
                     flightins2.setPrice(420);
                     
                     flightins2.setFlight(f);
-                    flightins2.setTime(new SimpleDateFormat("kk:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
+                    flightins2.setTime(new SimpleDateFormat("HH:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
                     f.addInstances(flightins2);
                     
                     if (c.after(new SimpleDateFormat("dd-M-yyyy").parse("19-06-2016")) && c.before(new SimpleDateFormat("dd-M-yyyy").parse("27-06-2016"))) {
@@ -123,9 +125,10 @@ public class SafeLufttester {
                         flightins3.setId(nr.nextInt(9000)+1000 + "-" + (nr.nextInt(90000000)+10000000) + "0000");
                         flightins3.setAvailabelSeats(f.getSeats());
                         flightins3.setCurrentDate(c);
+                        
                         flightins3.setPrice(420);
                         flightins3.setFlight(f);
-                        flightins3.setTime(new SimpleDateFormat("kk:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
+                        flightins3.setTime(new SimpleDateFormat("HH:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
                         f.addInstances(flightins3);
                         
                         
@@ -133,9 +136,10 @@ public class SafeLufttester {
                         flightins4.setId(nr.nextInt(9000)+1000 + "-" + (nr.nextInt(90000000)+10000000) + "0000");
                         flightins4.setAvailabelSeats(f.getSeats());
                         flightins4.setCurrentDate(c);
+                        
                         flightins4.setPrice(420);
                         flightins4.setFlight(f);
-                        flightins4.setTime(new SimpleDateFormat("kk:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
+                        flightins4.setTime(new SimpleDateFormat("HH:mm").parse(r.nextInt(24) + ":" + r.nextInt(60)));
                         f.addInstances(flightins4);
                     }
                     

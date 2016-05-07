@@ -29,18 +29,19 @@ public class JsonForDummies {
         JsonObject res = new JsonObject();
         JsonArray flights = new JsonArray();
         res.addProperty("airline", f.get(0).getFlight().getAirline().getName());
+        
         for (FlightInstance fi : f) {
             JsonObject flight = new JsonObject();
             flight.addProperty("flightID", fi.getId());
             flight.addProperty("flightNumber", fi.getFlight().getFlightNumber());
-            flight.addProperty("date", gson.toJson(fi.getDateTime()));
+            flight.add("date", gson.toJsonTree(fi.getDateTime()));
             flight.addProperty("numberOfSeats", tickets);
             flight.addProperty("totalPrice", (fi.getPrice()*tickets));
             flight.addProperty("traveltime", fi.getFlight().getFlightTime());
             flight.addProperty("origin", fi.getFlight().getFrom().getIATACode());
             flight.addProperty("destination", fi.getFlight().getTo().getIATACode());
             
-            flights.add(flights);
+            flights.add(flight);
         }
         res.add("flights", flights);
         return res;
@@ -56,8 +57,8 @@ public class JsonForDummies {
         JsonArray passengers = new JsonArray();
         res.addProperty("flightNumber", f.getFlight().getFlightNumber());
         res.addProperty("origin", f.getFlight().getFrom().getName()+"("+f.getFlight().getFrom().getIATACode()+")");
-        res.addProperty("destination", f.getFlight().getTo().getIATACode());
-        res.addProperty("date", gson.toJson(f.getDateTime()));
+        res.addProperty("destination", f.getFlight().getTo().getName()+"("+f.getFlight().getTo().getIATACode()+")");
+        res.add("date", gson.toJsonTree(f.getDateTime()));
         res.addProperty("flightTime", f.getFlight().getFlightTime());
         res.addProperty("numberOfSeats", seats);
         res.addProperty("reserveeName", reserveeName);
