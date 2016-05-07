@@ -1,132 +1,487 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>My AngularJS App</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">   
-        <link rel="stylesheet" href="app/app.css">   
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Book</title>
+    <!-- Bootstrap -->
+	
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  </head>
+  <body>
+   <header>
+    <div class="top_b">
+	 <div class="container">
+	  <div class="row">
+	   <div class="col-sm-6">
+	    <p><a href="#">Contact</a> | <a href="#">Help</a></p>
+	   </div>
+	   <div class="col-sm-6">
+	    <p class="text-right">Suport 24X7 | Help: 18000258693 &nbsp; &nbsp; <a href="#">Login</a> / <a href="#">Signup</a></p>
+	   </div>
+	  </div>	  
+	 </div>
+	</div>
+	<div class="logo_section">
+	 <div class="container">
+	  <div class="row">
+	   <div class="col-sm-3 col-lg-2">
+	    <img class="img-responsive" src="images/safeluft-logo.png" />
+	   </div>
+	   <div class="col-sm-9 col-lg-10">
+	    <p class="text-right">Recent searches | RS India</p>
+	   </div>
+	  </div>
+	 </div>
+	</div>
+	<div class="navigation">
+	 <div class="container">
 
-        <!-- In production use:
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-        -->
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-route/angular-route.js"></script>
-        <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
-        <script src='bower_components/angular-animate/angular-animate.min.js'></script>
-        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-        <script src="app/app.js"></script>
-        <script src="app/view1/view1.js"></script>
-        <script src="app/view2/view2.js"></script>
-        <script src="app/view3/view3.js"></script>
-        <script src="app/view4/view4.js"></script>
-        <script src="app/view5/view5.js"></script>
-        <script src="app/view6/view6.js"></script>
-        <script src="app/components/auth.js"></script>
-        <script src="app/components/filters.js"></script>
-        <script src="app/components/directives.js"></script>
-        <script src="app/components/factories.js"></script>
-        <script src="app/components/services.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0-beta.9/ng-table.min.css" >
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0-beta.9/ng-table.js"></script>
-    </head>
-    <body ng-app="myApp" ng-controller="AppLoginCtrl">
-        <div class="container" >
-            <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation" >
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">CA 3</a>
-                    </div>
-                    <div id="navbar" class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li><a href="#/view1">Home</a></li>
-                            <li><a href="#/view2">Documentation</a></li>
-                            <li ng-show="isUser"><a href="#/view3">Company Info</a></li>
-                            <li ng-show="isUser"><a href="#/view4">Exchange Rate Info</a></li>
-                            <li ng-show="isAdmin"><a href="#/view5">All Users</a></li>
-                        </ul>
-                        <div>
-                            <form class="navbar-form navbar-right" role="form" ng-show="!isAuthenticated" ng-submit="login()"  >
-                                <div class="form-group">
-                                    <input type="text" style="width:10em;" placeholder="Username" class="form-control"
-                                           ng-model="user.username">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" style="width:10em;" placeholder="Password" class="form-control"
-                                           ng-model="user.password">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Sign in</button>
-                                <a class="btn btn-primary" ng-click="openSignupModal()" >Register</a>
-                            </form>
-                            <div class="navbar-right" ng-show="isAuthenticated">
-
-                                <p class="navbar-text">Logged on as: {{username}}</p>
-
-                                <button type="submit" class="btn btn-primary navbar-btn"  ng-click="logout()">Logout
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <div class="container">
-                <div style="margin-top: 60px;">
-                    <hr style="background: transparent; border:0; height:2px" />
-                    <div class="alert alert-danger" role="alert" ng-show="error">{{error}}</div>
-                    <div ng-view></div>
-                </div>
+        <nav class="navbar navbar-static-top">          
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>            
             </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#"><img src="images/airplane-flight.png"/>Flights</a></li>
+               <!-- <li><a href="#about"><img src="images/sleeping-bed-silhouette.png"/>Hotels</a></li>
+                <li><a href="#contact"><img src="images/car-compact.png"/>Care hire</a></li>  
+                 <li><a href="#contact"><img src="images/icon.png" />Buses</a></li>  	-->			
+              </ul>
+            </div>         
+        </nav>
+
+      </div>
+	</div>
+   </header>
+   <div class="content">
+    <div class="container">
+	<div class="conbag">
+	 <div class="bagimg">
+	  <img class="img-responsive w100" src="images/hotel.jpg" />
+	 </div>
+	 <div class="banner_bg">
+	 <div class="row">
+	  <div class="col-sm-6">
+	   <div id="flighform">
+		  <label><input type="radio" name="example1" value="return" checked="checked" ><span></span> Return</label>
+		  <label><input type="radio" name="example1" value="Oneway"><span></span> One way</label>
+		  <label><input type="radio" name="example1" value="multicity"><span></span> Multi-city</label>
+
+		  <div class="conditional" data-cond-option="example1" data-cond-value="return">
+			<form>
+			<div class="row">
+			<div class="col-sm-6">
+			<label>From</label>
+			<input type="text" class="form-control" placeholder="Indore">
+			<div class="checkbox">
+		     <label>
+			   <input type="checkbox" value="">
+			    Add nearby airports
+		     </label>
+		     </div>
+			</div>
+			<div class="col-sm-6">
+			<label>To</label>
+			<input type="text" class="form-control" placeholder="City Name">
+			<div class="checkbox">
+		  <label>
+			<input type="checkbox" value="">
+			  Add nearby airports
+		  </label>
+		</div>
+	 </div>
+	</div>
+		<div class="row">	
+         <div class="col-sm-6">	
+           <div class="row">		 
+			<div class='col-md-6'>
+				<div class="form-group">
+				    <label>Depart</label>
+					<div class='input-group date' id='datetimepicker6'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class='col-md-6'>
+				<div class="form-group">
+				    <label>Return</label>
+					<div class='input-group date' id='datetimepicker7'>
+						<input type='text' class="form-control" />
+						    <span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+		    </div>
+		  </div>
+		 </div>
+		 <div class="col-sm-6">
+		  <label>Cabin Class & Travellers</label>
+			<input type="text" id="total" class="form-control" placeholder="Travellers">
+			
+          <!-- <div id="counter">
+		    <h1>kartik jat</h1>
+		   </div>-->
+ 
+
+		 </div>
+		  </div>
+		 <div class="row">	
+          <div class="col-sm-6">
+		    <label>
+			<input type="checkbox" value="">
+			  Add nearby airports
+		  </label>
+		  </div>
+          <div class="col-sm-6">
+		    <button type="submit" class="btn btn-default">Search</button>
+		  </div>		  
+		 </div>
+		</br>
+		 
+		</form>
+		  </div>
+
+		  <div class="conditional" data-cond-option="example1" data-cond-value="Oneway">
+			<form>
+			<div class="row">
+			<div class="col-sm-6">
+			<label>From</label>
+			<input type="text" class="form-control" placeholder="Indore">
+			<div class="checkbox">
+		     <label>
+			   <input type="checkbox" value="">
+			    Add nearby airports
+		     </label>
+		     </div>
+			</div>
+			<div class="col-sm-6">
+			<label>To</label>
+			<input type="text" class="form-control" placeholder="City name">
+			<div class="checkbox">
+		  <label>
+			<input type="checkbox" value="">
+			  Add nearby airports
+		  </label>
+		</div>
+	 </div>
+	</div>
+		<div class="row">	
+         <div class="col-sm-6">	
+           <div class="row">		 
+			<div class='col-md-12'>
+				<div class="form-group">
+				    <label>Depart</label>
+					<div class='input-group date' id='datetimepicker8'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<!--<div class='col-md-6'>
+				<div class="form-group">
+				    <label>Return</label>
+					<div class='input-group date' id='datetimepicker9'>
+						<input type='text' class="form-control" />
+						    <span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+		    </div>--->
+		  </div>
+		 </div>
+		 <div class="col-sm-6">
+		  <label>Cabin Class & Travellers</label>
+			<input type="text" id="total" class="form-control" placeholder="Travellers">
+			
+          <!-- <div id="counter">
+		    <h1>kartik jat</h1>
+		   </div>-->
+ 
+
+		 </div>
+		  </div>
+		 <div class="row">	
+          <div class="col-sm-6">
+		    <label>
+			<input type="checkbox" value="">
+			  Add nearby airports
+		  </label>
+		  </div>
+          <div class="col-sm-6">
+		    <button type="submit" class="btn btn-default">Search</button>
+		  </div>		  
+		 </div>
+		</br>
+		 
+		</form>
+		  </div>
+			<div class="conditional" data-cond-option="example1" data-cond-value="multicity">
+			  <form>
+			<div class="row">
+			<div class="col-sm-6">
+			<label>From</label>
+			<input type="text" class="form-control" placeholder="Indore">
+			<div class="checkbox">
+		     <label>
+			   <input type="checkbox" value="">
+			    Add nearby airports
+		     </label>
+		     </div>
+			</div>
+			<div class="col-sm-6">
+			<label>To</label>
+			<input type="text" class="form-control" placeholder="City name">
+			<div class="checkbox">
+		  <label>
+			<input type="checkbox" value="">
+			  Add nearby airports
+		  </label>
+		</div>
+	 </div>
+	</div>
+		<div class="row">	
+         <div class="col-sm-6">	
+           <div class="row">		 
+			<div class='col-md-6'>
+				<div class="form-group">
+				    <label>Depart</label>
+					<div class='input-group date' id='datetimepicker6'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class='col-md-6'>
+				<div class="form-group">
+				    <label>Return</label>
+					<div class='input-group date' id='datetimepicker7'>
+						<input type='text' class="form-control" />
+						    <span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+		    </div>
+		  </div>
+		 </div>
+		 <div class="col-sm-6">
+		  <label>Cabin Class & Travellers</label>
+			<input type="text" id="total" class="form-control" placeholder="Travellers">
+			
+          <!-- <div id="counter">
+		    <h1>kartik jat</h1>
+		   </div>-->
+ 
+
+		 </div>
+		  </div>
+		 <div class="row">	
+          <div class="col-sm-6">
+		    <label>
+			<input type="checkbox" value="">
+			  Add nearby airports
+		  </label>
+		  </div>
+          <div class="col-sm-6">
+		    <button type="submit" class="btn btn-default">Search</button>
+		  </div>		  
+		 </div>
+		</br>
+		 
+		</form>
+		  </div>
         </div>
-
-        <script type="text/ng-template" id="errorModal.html">
-            <div class="modal-header">
-            <h3 class="modal-title">Error!</h3>
-            </div>
-            <div class="modal-body">
-            <p>{{error}}</p>
-            </div>
-            <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()" autofocus>OK</button>
-            </div>
-        </script>
-
-        <script type="text/ng-template" id="signupModal.html">
-            <div class="modal-header">
-            <h3 class="modal-title" ng-show="!isRegistered">Register New User</h3>
-            <h3 class="modal-title" ng-show="isRegistered">You have now been registered!</h3>
-            </div>
-            <div class="modal-body">
-            <form class="form-signin" ng-show="!isRegistered">
-
-            <label for="inputUser" class="sr-only">Username</label>
-            <input ng-model="newuser.username" type="text" id="inputUser" class="form-control" placeholder="Username" required autofocus>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input ng-model="newuser.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <br/>
-            <button ng-click="postnewuser()" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
-            </form>
-            <div ng-show="isRegistered">
-            <p>Welcome {{newuser.username}}!</p>
-            <p>You can now login with your username and password.</p>
-            </div>
-            </div>
-            <div class="modal-footer" ng-show="isRegistered">
-            <button class="btn btn-primary" type="button" ng-click="ok()" autofocus>OK</button>
-            </div>
-        </script>
-
-
-    </body>
+	  </div>
+	  <div class="col-sm-6">
+	   <img class="img-responsive" src="images/rotate30.png" />
+	  </div>
+	 </div>
+	 </div>
+	 </div>
+	</div>
+	<div class="pull40"></div>
+	<div class="sponsers">
+	 <div class="container">
+	  <div class="row">
+	   <div class="col-sm-3"><img class="img-responsive" src="images/01.jpg" /></div>
+	    <div class="col-sm-3"><img class="img-responsive" src="images/02.jpg" /></div>
+		 <div class="col-sm-3"><img class="img-responsive" src="images/03.jpg" /></div>
+		  <div class="col-sm-3"><img class="img-responsive" src="images/04.jpg" /></div>
+		 
+	  </div>
+	 </div>
+	</div>
+	<div class="pull40"></div>
+	<div class="container">
+	 <div class="bagimg" style="padding: 8px 30px; background:#fff;">
+	 <div class="row">
+	  <div class="col-sm-12">
+	 <h4>Select departure</h4>
+	  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Direct flights only
+    </label>
+  </div>
+	 <table class="table table-responsive">
+	  <tr><td>Bhopal</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
+	  <tr><td>Indore</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 4,750</a></td></tr>
+	  <tr><td>Gwalior</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 6,750</a></td></tr>
+	  <tr><td>Mumbai</td><td class="text-right">2+ Stop</td><td><a class="bookbut" href="#">From Rs 5,750</a></td></tr>
+	  <tr><td>New Delhi</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
+	  <tr><td>Kolkata</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
+	  <tr><td>Gowa</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
+	  <tr><td>Patna</td><td class="text-right">1+ Stop</td><td><a class="bookbut" href="#">From Rs 8,750</a></td></tr>
+	  <tr><td>Pune</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 1,750</a></td></tr>
+	  <tr><td>Agra</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
+	  <tr><td>Bhuj</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 4,750</a></td></tr>
+	  <tr><td>Jabalpur</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 2,750</a></td></tr>
+	   <tr><td>Channai</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
+	 
+	 </table>
+	 </div>
+	 <!--<div class="col-sm-3">
+	  
+	  </br>
+	  <img class="img-responsive" src="images/hotel1.jpg"/>
+	  <a href="#" class="black"><h4>Book Hotel</h4></a>
+	  <hr>
+	  <img class="img-responsive" src="images/taxi.jpg"/>
+	  <a href="#" class="black"><h4>Book Car</h4></a>
+	 </div>-->
+	 </div>
+	 </div>
+   </div>
+  </div>
+  <footer>
+   <div class="container">
+    <div class="row">
+	 <div class="col-sm-3">
+	  <h4>ABOUT</h4>
+	   <hr>
+	  <ul>
+	   <li><a href="#">About this page</a></li>
+	   <li><a href="#">Lorem's owners</a></li>
+	   <li><a href="#">Mission</a></li>
+	   <li><a href="#">News</a></li>
+	   <li><a href="#">Privacy and cookies</a></li>
+	   <li><a href="#">Contact</a></li>
+	  </ul>
+	 </div>
+	 <div class="col-sm-3">
+	  <h4>HELP</h4>
+	   <hr>
+	  <ul>
+	   <li><a href="#">FAQs</a></li>
+	   <li><a href="#">Accessibility services</a></li>
+	   <li><a href="#">Text version</a></li>
+	  </ul>
+	 </div>
+	 <div class="col-sm-3">
+	  <h4>OTHER SERVICES</h4>
+	  <hr>
+	  <ul>
+	   <li><a href="#">Download to your computer</a></li>
+	   <li><a href="#">'s mobile services</a></li>
+	   <li><a href="#">Travelling to Southern Sweden?</a></li>
+	   <li><a href="#">Travelling abroad?</a></li>
+	   <li><a href="#">Journeyplanners in other countries</a></li>
+	  </ul>
+	 </div>
+	 <div class="col-sm-3">
+	  <h4>BUSINESS</h4>
+	   <hr>
+	  <ul>
+	   <li><a href="#">Download labs</a></li>
+	   <li><a href="#">Use for your services</a></li>
+	   <li><a href="#">logo</a></li>
+	   <li><a href="#">Get Rejseplanen on your webpage</a></li>
+	  </ul>
+	 </div>
+	</div>
+	<div class="row">
+	 <div class="col-sm-6">
+	  <p style="color:#ddd;">Copyright 2016 design by Skrgo</p>
+	 </div>
+	 <div class="col-sm-6">
+	  <p class="copyright"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></p>
+	 </div>
+	</div>
+   </div>
+  </footer>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+ 
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="js/conditionize.jquery.js"></script>	
+ <script>
+     $('.conditional').conditionize();
+ </script>
+ <script src="js/custom.js"></script>
+ <script src="js/bootstrap.min.js"></script>	  
+ <script src="js/moment-with-locales.js"></script>
+ <script src="js/bootstrap-datetimepicker.min.js"></script>
+ <script type="text/javascript">
+    $(function () {
+	     $('#datetimepicker6').datetimepicker({
+                 format: 'DD/MM/YYYY'
+           });
+		   $('#datetimepicker7').datetimepicker({
+                 format: 'DD/MM/YYYY'
+           });
+	
+        $('#datetimepicker6').datetimepicker();
+        $('#datetimepicker7').datetimepicker({
+            useCurrent: false //Important! See issue #1075
+        });
+        $("#datetimepicker6").on("dp.change", function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change", function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+		 
+    });
+	 $(function () {
+	     $('#datetimepicker8').datetimepicker({
+                 format: 'DD/MM/YYYY'
+           });
+		   $('#datetimepicker9').datetimepicker({
+                 format: 'DD/MM/YYYY'
+           });
+	
+        $('#datetimepicker8').datetimepicker();
+        $('#datetimepicker9').datetimepicker({
+            useCurrent: false //Important! See issue #1075
+        });
+        $("#datetimepicker8").on("dp.change", function (e) {
+            $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker8").on("dp.change", function (e) {
+            $('#datetimepicker9').data("DateTimePicker").maxDate(e.date);
+        });
+		 
+    });
+ </script>
+</body>
 </html>
