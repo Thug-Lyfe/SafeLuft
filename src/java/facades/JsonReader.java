@@ -16,7 +16,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.minidev.json.JSONObject;
 
 /**
  *

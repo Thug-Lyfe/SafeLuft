@@ -6,12 +6,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entity.Role;
+import entity.Service;
 import security.IUserFacade;
 import entity.User;
 import entity.UserReservation;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -26,6 +25,7 @@ public class UserFacade implements IUserFacade {
 
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
     private Gson gson;
+
     public UserFacade() {
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
@@ -48,8 +48,8 @@ public class UserFacade implements IUserFacade {
             em.close();
         }
     }
-    
-    public static List<User> getAllUser(){
+
+    public static List<User> getAllUser() {
         EntityManager em = emf.createEntityManager();
         try {
             List<User> users;
@@ -59,9 +59,9 @@ public class UserFacade implements IUserFacade {
         } finally {
         }
     }
-    
+
     public static User deleteUser(String id) {
-       EntityManager em = emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             User u = em.find(User.class, id);
@@ -116,7 +116,8 @@ public class UserFacade implements IUserFacade {
             em.close();
         }
     }
-    public static void RegisterTicket(UserReservation ticket,String userName){
+
+    public static void RegisterTicket(UserReservation ticket, String userName) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -127,13 +128,14 @@ public class UserFacade implements IUserFacade {
         } finally {
             em.close();
         }
-        
+
     }
-    public static JsonArray getTickets(String userName){
+
+    public static JsonArray getTickets(String userName) {
         EntityManager em = emf.createEntityManager();
         JsonArray ja = new JsonArray();
         try {
-            List<UserReservation> urList = em.find(User.class, userName).getTickets();           
+            List<UserReservation> urList = em.find(User.class, userName).getTickets();
             for (UserReservation ur : urList) {
                 ja.add(new JsonParser().parse(ur.getTicket()).getAsJsonObject());
             }
@@ -141,7 +143,30 @@ public class UserFacade implements IUserFacade {
             em.close();
         }
         return ja;
-        
+
+    }
+
+    public static boolean reserveTickets(JsonObject ticket, String airline) {
+        EntityManager em = emf.createEntityManager();
+        List<Service> servs = ServiceFacade.getListService();
+        String url = "";
+        FlightData fd = new FlightData();
+        try {
+            for (Service serv : servs) {
+                if (serv.getName().equals(airline)) {
+                    url = serv.getWebsite();
+                }
+            }
+            
+            Thread t = new Thread(new JsonPoster(ticket, url, fd));
+            t.start();
+
+            t.join(2000);
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+return fd.isTicketResponse();
     }
 
 }

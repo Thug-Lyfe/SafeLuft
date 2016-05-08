@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
  */
 public class FlightData {
     private JsonArray ja = new JsonArray();
-    
+    private boolean ticketResponse = false;
     public synchronized void addFlights(JsonObject newFlights){
         ja.add(newFlights);
     }
@@ -24,4 +24,15 @@ public class FlightData {
         
         return ja;
     }
+
+    public boolean isTicketResponse() {
+        return ticketResponse;
+    }
+
+    public void setTicketResponse(boolean ticketResponse) {
+        this.ticketResponse = ticketResponse;
+    }
+
+    
+    
 }

@@ -67,7 +67,9 @@ public class ServiceFacade {
         System.out.println(getFlights("CPH","","2016-04-30","3").toString());
         
     }
-    
+    public static List<Service> getListService(){
+        return servs;
+    }
     public static JsonElement getServices(){
         if(updated == false){
             update();

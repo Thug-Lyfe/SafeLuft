@@ -18,7 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("demouser")
-@RolesAllowed("User")
+//@RolesAllowed("User")
 public class User {
 private Gson gson;
     public User() {
@@ -35,21 +35,24 @@ private Gson gson;
 
     @GET
     @Produces("application/json")
-    @Path("/tickets/{userName}")
+    @Path("/ticket/{userName}")
     public String getJson(@PathParam("userName") String userName) {
         return gson.toJson(UserFacade.getTickets(userName));
     }
     
     @POST
-    @Path("/Ticket")
-    @Consumes("application/json")   
+    @Path("/ticket")
+    @Consumes("application/json")
+    @Produces("application/json")
     public String newTicket(String newTicket) {
         JsonObject ticket = new JsonParser().parse(newTicket).getAsJsonObject();
         entity.UserReservation ur = new entity.UserReservation();
         ur.setTicket(newTicket);
         try {
+            Boolean sent = UserFacade.reserveTickets(ticket,ticket.get("airline").getAsString());
+            if(sent){
             UserFacade.RegisterTicket(ur, ticket.get("user").getAsString());
-        
+            }
         return gson.toJson(UserFacade.getTickets(ticket.get("user").getAsString()));
         } catch (Exception ex) {
             Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
