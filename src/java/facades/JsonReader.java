@@ -27,10 +27,14 @@ public class JsonReader extends Thread {
     private FlightData fd;
 
     public JsonReader(String url, String date, String from, String to, String tickets, FlightData fd) {
+        String lars = "/api/flights/";
+        if(url.equals("http://angularairline-plaul.rhcloud.com")){
+            lars = "/api/flightinfo/";
+        }
         if (to.equals("")) {
-            this.url = url + "/api/flightinfo/" + from + "/" + date + "T00:00:00.000Z/" + tickets;
+            this.url = url + lars + from + "/" + date + "T00:00:00.000Z/" + tickets;
         } else {
-            this.url = url + "/api/flightinfo/" + from + "/" + to + "/" + date + "T00:00:00.000Z/" + tickets;
+            this.url = url + lars + from + "/" + to + "/" + date + "T00:00:00.000Z/" + tickets;
         }
         this.fd = fd;
     }

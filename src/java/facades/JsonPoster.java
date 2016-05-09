@@ -28,7 +28,12 @@ public class JsonPoster extends Thread{
     public JsonPoster(JsonObject ticket, String url,FlightData fd) {
             this.ticket = ticket;
             this.fd = fd;
-            this.url = url + "/api/reservation/" + ticket.get("flightId").getAsString();
+                    String lars = "/api/reservation";
+        if(url.equals("http://angularairline-plaul.rhcloud.com")){
+            lars = "/api/flightreservation";
+        }
+                    
+            this.url = url + lars + ticket.get("flightId").getAsString();
         
     }
 
