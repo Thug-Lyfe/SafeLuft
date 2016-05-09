@@ -8,6 +8,7 @@ package facades;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import httpErrors.FlightException;
 
 /**
  *
@@ -20,8 +21,10 @@ public class FlightData {
         ja.add(newFlights);
     }
     
-    public synchronized JsonElement getFlights(){
-        
+    public synchronized JsonElement getFlights() throws FlightException{
+        if(ja.toString().length() < 10){
+            throw new FlightException(1,404);
+        }
         return ja;
     }
 

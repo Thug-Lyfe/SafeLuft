@@ -9,11 +9,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import entity.Service;
 import entity.User;
 import entity.UserReservation;
-import static entity.development.Role_.users;
+import httpErrors.FlightException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,7 +34,7 @@ public class ServiceFacade {
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
     
     
-    public static JsonElement getFlights(String from, String to, String date, String tickets){
+    public static JsonElement getFlights(String from, String to, String date, String tickets) throws FlightException{
         if(updated == false){
             update();
         }
@@ -67,7 +66,7 @@ public class ServiceFacade {
             updated = true;
         }
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws FlightException{
         System.out.println(getFlights("CPH","","2016-04-30","3").toString());
         
     }
