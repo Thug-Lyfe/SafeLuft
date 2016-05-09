@@ -50,9 +50,9 @@ private Gson gson;
         ur.setTicket(newTicket);
         try {
             Boolean sent = UserFacade.reserveTickets(ticket,ticket.get("airline").getAsString());
-            if(sent){
+//            if(sent){
             UserFacade.RegisterTicket(ur, ticket.get("user").getAsString());
-            }
+//            }
         return gson.toJson(UserFacade.getTickets(ticket.get("user").getAsString()));
         } catch (Exception ex) {
             Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);

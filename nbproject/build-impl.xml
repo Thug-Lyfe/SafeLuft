@@ -1019,7 +1019,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.json-smart-1.2.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.nimbus-jose-jwt-4.9.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.Gson.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.HTTPClient.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.HTTPClient.classpath}" todir="${build.web.dir}/WEB-INF/classes"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
