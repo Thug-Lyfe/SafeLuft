@@ -3,8 +3,10 @@ package facades;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import entity.Role;
 import entity.Service;
 import security.IUserFacade;
@@ -157,16 +159,51 @@ public class UserFacade implements IUserFacade {
                     url = serv.getWebsite();
                 }
             }
-            
+
             Thread t = new Thread(new JsonPoster(ticket, url, fd));
             t.start();
 
             t.join(2000);
-            
+
         } catch (InterruptedException ex) {
             Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-return fd.isTicketResponse();
+        return fd.isTicketResponse();
+    }
+
+    public static JsonArray getAllUserAsJson() {
+        List<User> users = getAllUser();
+        JsonArray ja = new JsonArray();
+        for (User user : users) {
+            ja.add(userToJson(user));
+
+        }
+        return ja;
+    }
+
+    private static JsonObject userToJson(User u) {
+        JsonObject users = new JsonObject();
+        JsonArray roles = new JsonArray();
+
+        if (u.getUserName() != null) {
+            users.addProperty("username", u.getUserName());
+        } else {
+            users.addProperty("username", "");
+        }
+        if (u.getRoles() != null || u.getRoles().isEmpty()) {
+            for (int i = 0; i < u.getRoles().size(); i++) {
+                if (u.getRoles().get(i) != null) {
+                    JsonPrimitive role = new JsonPrimitive(u.getRoles().get(i).getRoleName());
+                    roles.add(role);
+                }
+
+            }
+        } else {
+            roles.add(new JsonObject());
+        }
+
+        users.add("roles", roles);
+        return users;
     }
 
 }

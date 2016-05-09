@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import facades.ServiceFacade;
+import facades.UserFacade;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -31,6 +32,20 @@ public class Admin {
     @Produces(MediaType.APPLICATION_JSON)
     public String getServices() {
         return gson.toJson(ServiceFacade.getServices());
+    }
+    
+    @GET
+    @Path("/tickets")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getTickets() {
+        return gson.toJson(ServiceFacade.getAllTickets());
+    }
+    
+    @GET
+    @Path("/users")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getUsers() {
+        return gson.toJson(UserFacade.getAllUserAsJson());
     }
 
     @DELETE

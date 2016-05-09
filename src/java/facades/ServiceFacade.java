@@ -8,8 +8,12 @@ package facades;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import entity.Airport;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import entity.Service;
+import entity.User;
+import entity.UserReservation;
+import static entity.development.Role_.users;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,7 +33,7 @@ public class ServiceFacade {
     private static boolean updated = false;
     private static List<Service> servs;
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
-
+    
     
     public static JsonElement getFlights(String from, String to, String date, String tickets){
         if(updated == false){
@@ -101,6 +105,27 @@ public class ServiceFacade {
         em.close();
         update();
     }
+    
+    public static JsonArray getAllTickets(){
+        EntityManager em = emf.createEntityManager();
+        JsonObject tickets = new JsonObject();
+        try {
+            List<User> users = UserFacade.getAllUser();
+            JsonArray ja = new JsonArray();
+            for (User user : users) {
+                for (UserReservation reserv : user.getTickets()) {
+                    ja.add(new JsonParser().parse(reserv.getTicket()).getAsJsonObject());
+                }
+                
+            }
+            return ja;
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+    
     }
 
 
