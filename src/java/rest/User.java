@@ -55,7 +55,7 @@ private Gson gson;
 //            }
         return gson.toJson(UserFacade.getTickets(ticket.get("user").getAsString()));
         } catch (Exception ex) {
-            Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getStackTrace());
                 return null;
         }
     }

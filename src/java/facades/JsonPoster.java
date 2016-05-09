@@ -41,28 +41,38 @@ public class JsonPoster extends Thread {
 
     @Override
     public void run() {
-        ticket.remove("user");
-        ticket.remove("airline");
-        String json = ticket.toString();
-
-//    HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 
-//
-//    try {
-//        HttpPost request = new HttpPost(url);
-//        StringEntity params =new StringEntity(ticket.toString());
-//        request.addHeader("content-type", "application/x-www-form-urlencoded");
-//        request.setEntity(params);
-//        HttpResponse response = httpClient.execute(request);
-//        if(response.getStatusLine().getStatusCode() > 199 && response.getStatusLine().getStatusCode() < 211){
-//            fd.setTicketResponse(true);
-//        }
+        InputStreamReader is = null;
+        try {
+            ticket.remove("user");
+            ticket.remove("airline");
+            String json = ticket.toString();
+            HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+            con.setRequestProperty("Content-Type", "application/json;");
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Method", "POST");
+            con.setDoOutput(true);
+            PrintWriter pw = new PrintWriter(con.getOutputStream());
+            try (OutputStream os = con.getOutputStream()) {
+                os.write(json.getBytes("UTF-8"));
+            }
+            int HttpResult = con.getResponseCode();
+            is = HttpResult < 400 ? new InputStreamReader(con.getInputStream(), "utf-8") : new InputStreamReader(con.getErrorStream(), "utf-8");
+            Scanner responseReader = new Scanner(is);
+            String response = "";
+            while (responseReader.hasNext()) {
+                response += responseReader.nextLine() + System.getProperty("line.separator");
+            }
+            System.out.println(response);
+            System.out.println(con.getResponseCode());
+            System.out.println(con.getResponseMessage());
+        } catch (IOException ex) {
+            Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
-
-    
-    
-
-) {
-        // handle exception here
-    }
-}
 }
