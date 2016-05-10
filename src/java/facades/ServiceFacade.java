@@ -35,13 +35,14 @@ public class ServiceFacade {
     
     
     public static JsonElement getFlights(String from, String to, String date, String tickets) throws FlightException{
+        List<String> codes = CityConverter.cityToCodes(from, to);
         if(updated == false){
             update();
         }
         FlightData fd = new FlightData();
         List<Thread> list = new ArrayList();
         for (int i = 0; i < servs.size(); i++) {
-            list.add(new JsonReader(servs.get(i).getWebsite(),date,from,to,tickets,fd));
+            list.add(new JsonReader(servs.get(i).getWebsite(),date,codes.get(0),codes.get(1),tickets,fd));
             list.get(i).start();
         }
         for (int i = 0; i < list.size(); i++) {

@@ -4,8 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import entity.FlightInstance;
+import facades.CityConverter;
+import facades.JsonForDummies;
+import facades.SafeLufttester;
 import facades.ServiceFacade;
 import facades.UserFacade;
+import httpErrors.FlightException;
+import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -21,7 +27,7 @@ import javax.ws.rs.core.MediaType;
 public class Admin {
 
     private Gson gson;
-
+    
     public Admin() {
 
         gson = new GsonBuilder().setPrettyPrinting().create();
@@ -67,7 +73,24 @@ public class Admin {
         ServiceFacade.addService(serv);
         return gson.toJson(ServiceFacade.getServices());
     }
-
+    
+    @GET
+    @Path("/dummyinit")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String initializeDummy() throws FlightException {
+        List<FlightInstance> list = SafeLufttester.initialize();
+        return JsonForDummies.getJSON(JsonForDummies.Response1(list, 2));
+    }
+    
+    @GET
+    @Path("/codeinit")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String initializeCodes() {
+        CityConverter.initialize();
+        return gson.toJson(CityConverter.codesToJson(CityConverter.cityToCodes("copenhagen, denmark","London, United Kingdom")));
+    }
+    
+    
 }
 // String now = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
 //    return "{\"message\" : \"This message was delivered via a REST call accesible by only authenticated ADMINS\",\n"

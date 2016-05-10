@@ -9,6 +9,7 @@ import entity.Airline;
 import entity.Airport;
 import entity.Flight;
 import entity.FlightInstance;
+import httpErrors.FlightException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,7 +31,11 @@ import javax.persistence.Persistence;
  */
 public class SafeLufttester {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FlightException {
+        initialize();
+    }
+    public static List<FlightInstance> initialize() throws FlightException {
+        List<FlightInstance> list = new ArrayList();
         Random nr = new Random();
         Persistence.generateSchema("PU-Local", null);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-Local");
@@ -152,6 +158,13 @@ public class SafeLufttester {
         
         em.merge(test);
         em.getTransaction().commit();
+        try {
+            list = SafeLuftFacade.getAnyFlight("CPH", new SimpleDateFormat("dd-M-yyyy").parse("01-04-2016").toString(), 2);
+        } catch (ParseException ex) {
+            Logger.getLogger(SafeLufttester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        return list;
     }
 
     public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {
