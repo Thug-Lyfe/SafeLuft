@@ -8,6 +8,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import facades.ServiceFacade;
+import httpErrors.FlightException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -40,14 +41,14 @@ public class Service {
     @GET
     @Produces("application/json")
     @Path("/{from}/{to}/{date}/{tickets}")
-    public String getFlightsFrom(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String date, @PathParam("tickets") String tickets){
+    public String getFlightsFrom(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String date, @PathParam("tickets") String tickets) throws FlightException{
         return gson.toJson(ServiceFacade.getFlights(from, to, date, tickets));
     }
     
     @GET
     @Produces("application/json")
     @Path("/{from}/{date}/{tickets}")
-    public String getFlights(@PathParam("from") String from, @PathParam("date") String date, @PathParam("tickets") String tickets){
+    public String getFlights(@PathParam("from") String from, @PathParam("date") String date, @PathParam("tickets") String tickets) throws FlightException{
         
         return gson.toJson(ServiceFacade.getFlights(from, "", date, tickets));
     }

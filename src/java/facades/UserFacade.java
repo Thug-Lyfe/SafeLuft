@@ -12,7 +12,14 @@ import entity.Service;
 import security.IUserFacade;
 import entity.User;
 import entity.UserReservation;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -148,29 +155,6 @@ public class UserFacade implements IUserFacade {
 
     }
 
-    public static boolean reserveTickets(JsonObject ticket, String airline) {
-        EntityManager em = emf.createEntityManager();
-        List<Service> servs = ServiceFacade.getListService();
-        String url = "";
-        FlightData fd = new FlightData();
-        try {
-            for (Service serv : servs) {
-                if (serv.getName().equals(airline)) {
-                    url = serv.getWebsite();
-                }
-            }
-
-            Thread t = new Thread(new JsonPoster(ticket, url, fd));
-            t.start();
-
-            t.join(2000);
-
-        } catch (InterruptedException ex) {
-            Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return fd.isTicketResponse();
-    }
-
     public static JsonArray getAllUserAsJson() {
         List<User> users = getAllUser();
         JsonArray ja = new JsonArray();
@@ -179,6 +163,52 @@ public class UserFacade implements IUserFacade {
 
         }
         return ja;
+    }
+
+    public static void ReserveTicketAirline(String ticket, String airline, String flightID) {
+        InputStreamReader is = null;
+        try {
+            List<Service> servs = ServiceFacade.getListService();
+            String url = "";
+            String lars = "/api/reservation/";
+            if (url.equals("http://angularairline-plaul.rhcloud.com")) {
+                lars = "/api/flightreservation/";
+            }
+            for (Service serv : servs) {
+                if (serv.getName().equals(airline)) {
+                    url = serv.getWebsite();
+                }
+            }
+            url = url + lars + flightID;
+
+            HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+            con.setRequestProperty("Content-Type", "application/json;");
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Method", "POST");
+            con.setDoOutput(true);
+            PrintWriter pw = new PrintWriter(con.getOutputStream());
+            try (OutputStream os = con.getOutputStream()) {
+                os.write(ticket.getBytes("UTF-8"));
+            }
+            int HttpResult = con.getResponseCode();
+            is = HttpResult < 400 ? new InputStreamReader(con.getInputStream(), "utf-8") : new InputStreamReader(con.getErrorStream(), "utf-8");
+            Scanner responseReader = new Scanner(is);
+            String response = "";
+            while (responseReader.hasNext()) {
+                response += responseReader.nextLine() + System.getProperty("line.separator");
+            }
+            System.out.println(response);
+            System.out.println(con.getResponseCode());
+            System.out.println(con.getResponseMessage());
+        } catch (IOException ex) {
+            Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private static JsonObject userToJson(User u) {
