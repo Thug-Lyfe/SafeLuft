@@ -8,6 +8,7 @@ package facades;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import entity.IataCodes;
+import entity.Service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -15,18 +16,20 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import openshift_deploy.DeploymentConfiguration;
+import static openshift_deploy.DeploymentConfiguration.hostName;
 
 /**
  *
  * @author Warco
  */
 public class CityConverter {
+
     private static boolean init = false;
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
-    private static int count = 3592; 
+    private static int count = 3592;
+
     public static void main(String[] args) {
-        
-    
+
 //        EntityManager em = emf.createEntityManager();
 //        List<iataAirportCodes> codes;
 //        Query q = em.createQuery("SELECT c from iataAirportCodes c");
@@ -42,20 +45,20 @@ public class CityConverter {
 //        List<String> test = cityToCodes("copenhagen, denmark","London, United Kingdom");
 //        System.out.println(test.get(0));
 //        System.out.println(test.get(1));
-        
         EntityManager em = emf.createEntityManager();
         List<IataCodes> codes;
         Query q = em.createQuery("SELECT c from IataCodes c");
         codes = q.getResultList();
         System.out.println(codes.size());
     }
-    public static JsonObject codesToJson(List<String> codes){
+
+    public static JsonObject codesToJson(List<String> codes) {
         JsonObject jo = new JsonObject();
         jo.addProperty("from", codes.get(0));
         jo.addProperty("to", codes.get(1));
         return jo;
     }
-    
+
     public static List<String> cityToCodes(String cityFrom, String cityTo) {
         EntityManager em = emf.createEntityManager();
         List<String> codes = new ArrayList();
@@ -95,17 +98,17 @@ public class CityConverter {
     public static int getCount() {
         return count;
     }
-    
-    private static List<IataCodes> getStatsList(int minScore){
+
+    private static List<IataCodes> getStatsList(int minScore) {
         EntityManager em = emf.createEntityManager();
         List<IataCodes> stats;
-            Query q2 = em.createQuery("SELECT f from IataCodes f WHERE f.score > :score");
-            q2.setParameter("code", minScore);
-            stats = q2.getResultList();
-            return stats;
+        Query q2 = em.createQuery("SELECT f from IataCodes f WHERE f.score > :score");
+        q2.setParameter("code", minScore);
+        stats = q2.getResultList();
+        return stats;
     }
-    
-    public static JsonArray getStatsJson(int minScore){
+
+    public static JsonArray getStatsJson(int minScore) {
         JsonArray ja = new JsonArray();
         for (IataCodes stat : getStatsList(minScore)) {
             JsonObject jo = new JsonObject();
@@ -117,15 +120,30 @@ public class CityConverter {
         return ja;
     }
 
-    public static void initialize(){
-        if(!init){
+    public static void initialize() {
+        if (!init) {
             init = true;
             initialize1();
+            initializeHost();
         }
     }
-    
+
+    private static void initializeHost() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Service serv1 = new Service();
+            serv1.setName("SafeLuft");
+            serv1.setWebsite(hostName);
+            em.getTransaction().begin();
+            em.persist(serv1);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
     private static void initialize1() {
-        
+
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -1427,10 +1445,11 @@ public class CityConverter {
             em.close();
         }
         initialize2();
-        }
-        private static void initialize2(){
-            EntityManager em = emf.createEntityManager();
-            
+    }
+
+    private static void initialize2() {
+        EntityManager em = emf.createEntityManager();
+
         try {
             em.getTransaction().begin();
             em.persist(new IataCodes("HOD", "Hodeidah, Yemen ", 0));

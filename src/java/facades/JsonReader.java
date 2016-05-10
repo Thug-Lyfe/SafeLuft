@@ -8,6 +8,7 @@ package facades;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +29,7 @@ public class JsonReader extends Thread {
 
     public JsonReader(String url, String date, String from, String to, String tickets, FlightData fd) {
         String lars = "/api/flights/";
-        if(url.equals("http://angularairline-plaul.rhcloud.com")){
+        if (url.equals("http://angularairline-plaul.rhcloud.com")) {
             lars = "/api/flightinfo/";
         }
         if (to.equals("")) {
@@ -49,14 +50,18 @@ public class JsonReader extends Thread {
     }
 
     private static JsonObject readJsonFromUrl(String url) throws IOException {
-        InputStream is = new URL(url).openStream();
+        InputStream is = null;
+        JsonObject json = new JsonObject();
         try {
+            is = new URL(url).openStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
-            JsonObject json = new JsonParser().parse(jsonText).getAsJsonObject();
+            json = new JsonParser().parse(jsonText).getAsJsonObject();
             return json;
-        } finally {
+        }finally {
+            if(is != null){
             is.close();
+            }
         }
     }
 

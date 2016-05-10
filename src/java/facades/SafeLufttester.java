@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
+import openshift_deploy.DeploymentConfiguration;
 
 /**
  *
@@ -34,11 +34,10 @@ public class SafeLufttester {
     public static void main(String[] args) throws FlightException {
         initialize();
     }
-    public static List<FlightInstance> initialize() throws FlightException {
-        List<FlightInstance> list = new ArrayList();
+    public static void initialize() throws FlightException {
         Random nr = new Random();
-        Persistence.generateSchema("PU-Local", null);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU-Local");
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Airline test = new Airline();
@@ -158,13 +157,8 @@ public class SafeLufttester {
         
         em.merge(test);
         em.getTransaction().commit();
-        try {
-            list = SafeLuftFacade.getAnyFlight("CPH", new SimpleDateFormat("dd-M-yyyy").parse("01-04-2016").toString(), 2);
-        } catch (ParseException ex) {
-            Logger.getLogger(SafeLufttester.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-        return list;
+
+ 
     }
 
     public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {

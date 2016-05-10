@@ -78,8 +78,8 @@ public class Admin {
     @Path("/dummyinit")
     @Produces(MediaType.APPLICATION_JSON)
     public String initializeDummy() throws FlightException {
-        List<FlightInstance> list = SafeLufttester.initialize();
-        return JsonForDummies.getJSON(JsonForDummies.Response1(list, 2));
+        SafeLufttester.initialize();
+        return gson.toJson(ServiceFacade.getFlights("Copenhagen, Denmark", "","2016-05-02", "2"));
     }
     
     @GET

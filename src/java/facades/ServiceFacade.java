@@ -36,13 +36,17 @@ public class ServiceFacade {
     
     public static JsonElement getFlights(String from, String to, String date, String tickets) throws FlightException{
         List<String> codes = CityConverter.cityToCodes(from, to);
+        if(!"".equals(to)){
+            to = codes.get(1);
+        }
         if(updated == false){
             update();
         }
+        System.out.println(codes.get(0) + " , " + to);
         FlightData fd = new FlightData();
         List<Thread> list = new ArrayList();
         for (int i = 0; i < servs.size(); i++) {
-            list.add(new JsonReader(servs.get(i).getWebsite(),date,codes.get(0),codes.get(1),tickets,fd));
+            list.add(new JsonReader(servs.get(i).getWebsite(),date,codes.get(0),to,tickets,fd));
             list.get(i).start();
         }
         for (int i = 0; i < list.size(); i++) {
@@ -68,7 +72,8 @@ public class ServiceFacade {
         }
     
     public static void main(String[] args) throws FlightException{
-        System.out.println(getFlights("CPH","","2016-04-30","3").toString());
+        
+        System.out.println(getFlights("Copenhagen, Denmark", "","2016-05-02", "2"));
         
     }
     public static List<Service> getListService(){

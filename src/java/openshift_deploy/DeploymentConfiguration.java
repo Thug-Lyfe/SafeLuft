@@ -20,8 +20,8 @@ import security.PasswordStorage;
 public class DeploymentConfiguration implements ServletContextListener {
 
     public static String PU_NAME = "PU-Local";
+    public static String hostName = "http://localhost:9090/SafeLuft";
     private ScheduledExecutorService scheduler;
-
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         
@@ -33,6 +33,7 @@ public class DeploymentConfiguration implements ServletContextListener {
         //If we are running in the OPENSHIFT environment change the pu-name 
         if (env.keySet().contains("OPENSHIFT_MYSQL_DB_HOST")) {
             PU_NAME = "PU_OPENSHIFT";
+            hostName = "http://ca-mb1337.rhcloud.com/SafeLuft";
         }
         try {
             ServletContext context = sce.getServletContext();
@@ -58,15 +59,16 @@ public class DeploymentConfiguration implements ServletContextListener {
             both.AddRole(userRole);
             both.AddRole(adminRole);
 
-            Service serv =  new Service();
-            serv.setName("DUMMYLARS");
-            serv.setWebsite("http://angularairline-plaul.rhcloud.com");
+            Service serv1 =  new Service();
+            serv1.setName("DUMMYLARS");
+            serv1.setWebsite("http://angularairline-plaul.rhcloud.com");
+            
             
             try {
                 em.getTransaction().begin();
                 em.persist(userRole);
                 em.persist(adminRole);
-                em.persist(serv);
+                em.persist(serv1);
                 
                 em.persist(user);
                 em.persist(admin);
