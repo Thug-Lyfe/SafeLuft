@@ -4,11 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import facades.ServiceFacade;
 import facades.UserFacade;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.security.RolesAllowed;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -54,10 +52,15 @@ private Gson gson;
         try {
             UserFacade.ReserveTicketAirline(ticket.toString(),airline,flightID);
             UserFacade.RegisterTicket(ur, user);
-        return gson.toJson(UserFacade.getTickets(user));
+        
         } catch (Exception ex) {
-            System.out.println(ex.getStackTrace());
-                return null;
+
+StringWriter sw = new StringWriter();
+PrintWriter pw = new PrintWriter(sw);
+ex.printStackTrace(pw);
+sw.toString(); 
+  
         }
+        return gson.toJson(UserFacade.getTickets(user));
     }
 }
