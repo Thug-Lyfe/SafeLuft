@@ -7,6 +7,9 @@ angular.module('myApp.security', [])
             $scope.details2 = '';
             $scope.isUser = false;
             $scope.isAdmin = false;
+            $scope.showSirch = true;
+            $scope.isActive = true;
+            $scope.activation = "active"
             $rootScope.$on('logOutEvent', function () {
                 $scope.logout();
             });
@@ -79,6 +82,20 @@ angular.module('myApp.security', [])
                 $location.path("/view1");
             };
 
+            $rootScope.showSearch = function(){
+                $scope.showSirch = true;
+                $scope.isActive = true;
+                $scope.activation = "active";
+                
+            };
+            
+            $rootScope.hideSearch = function(){
+                $scope.showSirch = false;
+                $scope.isActive = false;
+                $scope.activation = "";
+                
+            };
+
             $rootScope.openErrorModal = function (text) {
                 var modalInstance = $uibModal.open({
                     animation: true,
@@ -87,6 +104,35 @@ angular.module('myApp.security', [])
                         $scope.error = text;
                         $scope.ok = function () {
                             $uibModalInstance.close();
+                        };
+                    },
+                    size: 'sm'
+                });
+            };
+
+            $rootScope.openSigninModal = function () {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'signinModal.html',
+                    controller: function ($scope, $uibModalInstance, $http, $route) {
+
+                        $scope.ok = function () {
+                            $uibModalInstance.close();
+                        };
+                        $scope.login = function () {
+                            $http.post('api/login', $scope.user)
+                                    .success(function (data) {
+                                        $window.sessionStorage.id_token = data.token;
+                                        initializeFromToken($scope, $window.sessionStorage.id_token, jwtHelper);
+                                        $location.path("#/view1");
+                                        $uibModalInstance.close();
+                                        $window.location.reload();
+
+                                    })
+                                    .error(function (data) {
+                                        delete $window.sessionStorage.id_token;
+                                        clearUserDetails($scope);
+                                    });
                         };
                     },
                     size: 'sm'

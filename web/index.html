@@ -47,7 +47,8 @@
                             <p><a href="#">Contact</a> | <a href="#">Help</a></p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="text-right">Suport 24X7 | Help: 18000258693 &nbsp; &nbsp; <a href="#">Login</a> / <a href="#">Signup</a></p>
+                            <p ng-show="!isAuthenticated" class="text-right">Support 420-420420 | Help: 420420420 &nbsp; &nbsp; <a href="#" ng-click="openSigninModal()">Login</a> / <a href="#" ng-click="openSignupModal()">Signup</a></p>
+                            <p ng-show="isAuthenticated" class="text-right">Support 420-420420 | Help: 420420420 &nbsp; &nbsp; Logged on as: {{username}} / <a href="#" ng-click="logout()">Logout</a> </p>
                         </div>
                     </div>	  
                 </div>
@@ -59,7 +60,7 @@
                             <img class="img-responsive" src="images/safeluft-logo.png" />
                         </div>
                         <div class="col-sm-9 col-lg-10">
-                            <p class="text-right">Recent searches | RS India</p>
+                            <p class="text-right">Recent searches | SafeLuft</p>
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,9 @@
                         </div>
                         <div id="navbar" class="navbar-collapse collapse">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="#"><img src="images/airplane-flight.png"/>Flights</a></li>
+                                <li class = "{{activation}}"><a ng-click="showSearch()" href="#"><img src="images/airplane-flight.png"/>Flights</a></li>
+                                <li ><a ng-click="hideSearch()" ng-show="isAdmin" href="#"><img src="images/airplane-flight.png"/>All Reservations</a></li>
+                                <li ><a ng-click="hideSearch()" ng-show="isUser" href="#"><img src="images/airplane-flight.png"/>Your Reservations</a></li>
                                 <!-- <li><a href="#about"><img src="images/sleeping-bed-silhouette.png"/>Hotels</a></li>
                                  <li><a href="#contact"><img src="images/car-compact.png"/>Care hire</a></li>  
                                   <li><a href="#contact"><img src="images/icon.png" />Buses</a></li>  	-->			
@@ -89,7 +92,7 @@
                 </div>
             </div>
         </header>
-        <div class="content">
+        <div ng-show="showSirch" class="content">
             <div class="container">
                 <div class="conbag">
                     <div class="bagimg">
@@ -99,52 +102,25 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div id="flighform">
-                                    <label><input type="radio" name="example1" value="return" checked="checked" ><span></span> Return</label>
-                                    <label><input type="radio" name="example1" value="Oneway"><span></span> One way</label>
-                                    <label><input type="radio" name="example1" value="multicity"><span></span> Multi-city</label>
+                                    <label><input type="radio" name="example1" value="flight" checked="checked" ><span></span> Get Me Out Of Here</label>
+                                    <label><input type="radio" name="example1" value="spec"><span></span> Get Me Here</label>
 
-                                    <div class="conditional" data-cond-option="example1" data-cond-value="return">
+                                    <div class="conditional" data-cond-option="example1" data-cond-value="flight">
                                         <form id="form" role="form">
                                             <div class="row" >
                                                 <div class="col-sm-6" >
                                                     <label>From</label>
                                                     <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" value="">
-                                                            Add nearby airports
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>To</label>
-                                                    <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" value="">
-                                                            Add nearby airports
-                                                        </label>
-                                                    </div>
+                                                    <br>
                                                 </div>
                                             </div>
                                             <div class="row">	
                                                 <div class="col-sm-6">	
                                                     <div class="row">		 
-                                                        <div class='col-md-6'>
+                                                        <div class='col-md-12'>
                                                             <div class="form-group">
                                                                 <label>Depart</label>
-                                                                <div class='input-group date' id='datetimepicker6'>
-                                                                    <input type='text' class="form-control" />
-                                                                    <span class="input-group-addon">
-                                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class='col-md-6'>
-                                                            <div class="form-group">
-                                                                <label>Return</label>
-                                                                <div class='input-group date' id='datetimepicker7'>
+                                                                <div class='input-group date' id='datetimepicker8'>
                                                                     <input type='text' class="form-control" />
                                                                     <span class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-calendar"></span>
@@ -155,8 +131,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label>Cabin Class & Travellers</label>
-                                                    <input type="text" id="total" class="form-control" placeholder="Travellers">
+                                                    <label>Amount of Tickets</label>
+                                                    <input type="number" id="total" class="form-control" placeholder="Travellers">
 
                                                     <!-- <div id="counter">
                                                               <h1>kartik jat</h1>
@@ -165,12 +141,8 @@
 
                                                 </div>
                                             </div>
-                                            <div class="row">	
+                                            <div class="row">
                                                 <div class="col-sm-6">
-                                                    <label>
-                                                        <input type="checkbox" value="">
-                                                        Add nearby airports
-                                                    </label>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <button type="submit" class="btn btn-default">Search</button>
@@ -181,28 +153,18 @@
                                         </form>
                                     </div>
 
-                                    <div class="conditional" data-cond-option="example1" data-cond-value="Oneway">
+                                    <div class="conditional" data-cond-option="example1" data-cond-value="spec">
                                         <form>
                                             <div class="row" >
                                                 <div class="col-sm-6">
                                                     <label>From</label>
-                                                     <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" value="">
-                                                            Add nearby airports
-                                                        </label>
-                                                    </div>
+                                                    <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
+                                                    <br>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label>To</label>
-                                                     <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" value="">
-                                                            Add nearby airports
-                                                        </label>
-                                                    </div>
+                                                    <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
+                                                    <br>
                                                 </div>
                                             </div>
                                             <div class="row">	
@@ -233,8 +195,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label>Cabin Class & Travellers</label>
-                                                    <input type="text" id="total" class="form-control" placeholder="Travellers">
+                                                    <label>Amount of Tickets</label>
+                                                    <input type="number" id="total" class="form-control" placeholder="Travellers">
 
                                                     <!-- <div id="counter">
                                                               <h1>kartik jat</h1>
@@ -245,88 +207,8 @@
                                             </div>
                                             <div class="row">	
                                                 <div class="col-sm-6">
-                                                    <label>
-                                                        <input type="checkbox" value="">
-                                                        Add nearby airports
-                                                    </label>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <button type="submit" class="btn btn-default">Search</button>
-                                                </div>		  
-                                            </div>
-                                            </br>
 
-                                        </form>
-                                    </div>
-                                    <div class="conditional" data-cond-option="example1" data-cond-value="multicity">
-                                        <form>
-                                            <div class="row" >
-                                                <div class="col-sm-6">
-                                                    <label>From</label>
-                                                     <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" value="">
-                                                            Add nearby airports
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>To</label>
-                                                     <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" value="">
-                                                            Add nearby airports
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">	
-                                                <div class="col-sm-6">	
-                                                    <div class="row">		 
-                                                        <div class='col-md-6'>
-                                                            <div class="form-group">
-                                                                <label>Depart</label>
-                                                                <div class='input-group date' id='datetimepicker6'>
-                                                                    <input type='text' class="form-control" />
-                                                                    <span class="input-group-addon">
-                                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class='col-md-6'>
-                                                            <div class="form-group">
-                                                                <label>Return</label>
-                                                                <div class='input-group date' id='datetimepicker7'>
-                                                                    <input type='text' class="form-control" />
-                                                                    <span class="input-group-addon">
-                                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>Cabin Class & Travellers</label>
-                                                    <input type="text" id="total" class="form-control" placeholder="Travellers">
-
-                                                    <!-- <div id="counter">
-                                                              <h1>kartik jat</h1>
-                                                             </div>-->
-
-
-                                                </div>
-                                            </div>
-                                            <div class="row">	
-                                                <div class="col-sm-6">
-                                                    <label>
-                                                        <input type="checkbox" value="">
-                                                        Add nearby airports
-                                                    </label>
-                                                </div>
                                                 <div class="col-sm-6">
                                                     <button type="submit" class="btn btn-default">Search</button>
                                                 </div>		  
@@ -344,40 +226,9 @@
                     </div>
                 </div>
             </div>
-            <div class="pull40"></div>
+        
+            
 
-            <div class="pull40"></div>
-            <div class="container">
-                <div class="bagimg" style="padding: 8px 30px; background:#fff;">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h4>Select departure</h4>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Direct flights only
-                                </label>
-                            </div>
-                            <table class="table table-responsive">
-                                <tr><td>Bhopal</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
-                                <tr><td>Indore</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 4,750</a></td></tr>
-                                <tr><td>Gwalior</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 6,750</a></td></tr>
-                                <tr><td>Mumbai</td><td class="text-right">2+ Stop</td><td><a class="bookbut" href="#">From Rs 5,750</a></td></tr>
-                                <tr><td>New Delhi</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
-                                <tr><td>Kolkata</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
-                                <tr><td>Gowa</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
-                                <tr><td>Patna</td><td class="text-right">1+ Stop</td><td><a class="bookbut" href="#">From Rs 8,750</a></td></tr>
-                                <tr><td>Pune</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 1,750</a></td></tr>
-                                <tr><td>Agra</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
-                                <tr><td>Bhuj</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 4,750</a></td></tr>
-                                <tr><td>Jabalpur</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 2,750</a></td></tr>
-                                <tr><td>Channai</td><td class="text-right">Direct</td><td><a class="bookbut" href="#">From Rs 3,750</a></td></tr>
-
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
         </div>
         <footer>
             <div class="container">
@@ -441,53 +292,109 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/conditionize.jquery.js"></script>	
         <script>
-                                        $('.conditional').conditionize();
+                                $('.conditional').conditionize();
         </script>
         <script src="js/custom.js"></script>
         <script src="js/bootstrap.min.js"></script>	  
         <script src="js/moment-with-locales.js"></script>
         <script src="js/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript">
-                                        $(function () {
-                                            $('#datetimepicker6').datetimepicker({
-                                                format: 'DD/MM/YYYY'
-                                            });
-                                            $('#datetimepicker7').datetimepicker({
-                                                format: 'DD/MM/YYYY'
-                                            });
+                                $(function () {
+                                    $('#datetimepicker6').datetimepicker({
+                                        format: 'DD/MM/YYYY'
+                                    });
+                                    $('#datetimepicker7').datetimepicker({
+                                        format: 'DD/MM/YYYY'
+                                    });
 
-                                            $('#datetimepicker6').datetimepicker();
-                                            $('#datetimepicker7').datetimepicker({
-                                                useCurrent: false //Important! See issue #1075
-                                            });
-                                            $("#datetimepicker6").on("dp.change", function (e) {
-                                                $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-                                            });
-                                            $("#datetimepicker7").on("dp.change", function (e) {
-                                                $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-                                            });
+                                    $('#datetimepicker6').datetimepicker();
+                                    $('#datetimepicker7').datetimepicker({
+                                        useCurrent: false //Important! See issue #1075
+                                    });
+                                    $("#datetimepicker6").on("dp.change", function (e) {
+                                        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                                    });
+                                    $("#datetimepicker7").on("dp.change", function (e) {
+                                        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                                    });
 
-                                        });
-                                        $(function () {
-                                            $('#datetimepicker8').datetimepicker({
-                                                format: 'DD/MM/YYYY'
-                                            });
-                                            $('#datetimepicker9').datetimepicker({
-                                                format: 'DD/MM/YYYY'
-                                            });
+                                });
+                                $(function () {
+                                    $('#datetimepicker8').datetimepicker({
+                                        format: 'DD/MM/YYYY'
+                                    });
+                                    $('#datetimepicker9').datetimepicker({
+                                        format: 'DD/MM/YYYY'
+                                    });
 
-                                            $('#datetimepicker8').datetimepicker();
-                                            $('#datetimepicker9').datetimepicker({
-                                                useCurrent: false //Important! See issue #1075
-                                            });
-                                            $("#datetimepicker8").on("dp.change", function (e) {
-                                                $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
-                                            });
-                                            $("#datetimepicker8").on("dp.change", function (e) {
-                                                $('#datetimepicker9').data("DateTimePicker").maxDate(e.date);
-                                            });
+                                    $('#datetimepicker8').datetimepicker();
+                                    $('#datetimepicker9').datetimepicker({
+                                        useCurrent: false //Important! See issue #1075
+                                    });
+                                    $("#datetimepicker8").on("dp.change", function (e) {
+                                        $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
+                                    });
+                                    $("#datetimepicker8").on("dp.change", function (e) {
+                                        $('#datetimepicker9').data("DateTimePicker").maxDate(e.date);
+                                    });
 
-                                        });
+                                });
+        </script>
+        <script type="text/ng-template" id="errorModal.html">
+            <div class="modal-header">
+            <h3 class="modal-title">Error!</h3>
+            </div>
+            <div class="modal-body">
+            <p>{{error}}</p>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()" autofocus>OK</button>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="signupModal.html">
+            <div class="modal-header">
+            <h3 class="modal-title" ng-show="!isRegistered">Register New User</h3>
+            <h3 class="modal-title" ng-show="isRegistered">You have now been registered!</h3>
+            </div>
+            <div class="modal-body">
+            <form class="form-signin" ng-show="!isRegistered">
+
+            <label for="inputUser" class="sr-only">Username</label>
+            <input ng-model="newuser.username" type="text" id="inputUser" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input ng-model="newuser.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <br/>
+            <button ng-click="postnewuser()" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+            </form>
+            <div ng-show="isRegistered">
+            <p>Welcome {{newuser.username}}!</p>
+            <p>You can now login with your username and password.</p>
+            </div>
+            </div>
+            <div class="modal-footer" ng-show="isRegistered">
+            <button class="btn btn-primary" type="button" ng-click="ok()" autofocus>OK</button>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="signinModal.html">
+            <div class="modal-header">
+            <h3 class="modal-title" ng-show="!isAuthenticated">Login</h3>
+            </div>
+            <div class="modal-body">
+            <form class="form-signin" ng-show="!isAuthenticated">
+
+            <label for="inputUser" class="sr-only">Username</label>
+            <input ng-model="user.username" type="text" id="inputUser" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input ng-model="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <br/>
+            <button ng-click="login()" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+            </form>
+            </div>
+            <div class="modal-footer" ng-show="isAuthenticated">
+            <button class="btn btn-primary" type="button" ng-click="ok()" autofocus>OK</button>
+            </div>
         </script>
     </body>
 </html>
