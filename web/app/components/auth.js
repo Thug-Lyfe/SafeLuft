@@ -1,5 +1,10 @@
 angular.module('myApp.security', [])
         .controller('AppLoginCtrl', function ($scope, $rootScope, $http, $window, $location, $uibModal, jwtHelper) {
+            $scope.result2 = '';
+            $scope.options2 = {
+                types: '(cities)'
+            };
+            $scope.details2 = '';
             $scope.isUser = false;
             $scope.isAdmin = false;
             $rootScope.$on('logOutEvent', function () {
@@ -93,7 +98,7 @@ angular.module('myApp.security', [])
                     animation: true,
                     templateUrl: 'signupModal.html',
                     controller: function ($scope, $uibModalInstance, $http) {
-                        
+
                         $scope.ok = function () {
                             $uibModalInstance.close();
                         };
