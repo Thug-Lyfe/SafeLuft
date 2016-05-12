@@ -22,19 +22,21 @@ angular.module('myApp.view5', ['ngRoute'])
                 method: 'Delete',
                 url: "api/admin/Service/"+id
             }).then(function (response){
+                $scope.Services = response.data;
                 $scope.users.splice(index,1);
             });
             };
             
             $scope.newService = {
             };
-            $scope.postnewuser = function () {
+            $scope.postNewService = function () {
                 $http({
                     method: 'POST',
                     url: 'api/admin/Service',
                     data: $scope.newService
                 }).then(function successCallback(res) {
                     $scope.isRegistered = true;
+                    $scope.Services = res.data;
                 }, function errorCallback(res) {
                     $scope.error = res.status + ": " + res.data.statusText;
                 });

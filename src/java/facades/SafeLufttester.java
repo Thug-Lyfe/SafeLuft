@@ -77,7 +77,7 @@ public class SafeLufttester {
         f1.setAirline(test);
         test.addFlights(f1);
 
-        for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < 50; i++) {
             Random r = new Random();
             Flight f = new Flight();
             f.setFlightNumber("AIR"+ (nr.nextInt(9000)+1000));

@@ -65,25 +65,31 @@ public class CityConverter {
         try {
             List<IataCodes> from;
             Query q1 = em.createQuery("SELECT f from IataCodes f WHERE f.airport LIKE :code");
-            q1.setParameter("code", "%" + cityFrom + "%");
+            q1.setParameter("code", cityFrom + "%");
             from = q1.getResultList();
-
+            System.out.println(cityFrom);
+            
             List<IataCodes> to;
             Query q2 = em.createQuery("SELECT f from IataCodes f WHERE f.airport LIKE :code");
-            q2.setParameter("code", "%" + cityTo + "%");
+            q2.setParameter("code", cityTo + "%");
             to = q2.getResultList();
+            System.out.println(cityTo);
 
             em.getTransaction().begin();
             if (from.isEmpty()) {
-                codes.add("");
+                codes.add("empty");
+                System.out.println("empty");
             } else {
+                System.out.println(from.get(0).getCode());
                 codes.add(from.get(0).getCode());
                 from.get(0).increment();
                 em.merge(from.get(0));
             }
             if (to.isEmpty()) {
-                codes.add("");
+                codes.add("empty");
+                System.out.println("empty");
             } else {
+                System.out.println(to.get(0).getCode());
                 codes.add(to.get(0).getCode());
                 to.get(0).increment();
                 em.merge(to.get(0));

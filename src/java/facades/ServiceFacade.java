@@ -35,6 +35,7 @@ public class ServiceFacade {
     
     
     public static JsonElement getFlights(String from, String to, String date, String tickets) throws FlightException{
+        
         List<String> codes = CityConverter.cityToCodes(from, to);
         if(!"".equals(to)){
             to = codes.get(1);
@@ -42,7 +43,6 @@ public class ServiceFacade {
         if(updated == false){
             update();
         }
-        System.out.println(codes.get(0) + " , " + to);
         FlightData fd = new FlightData();
         List<Thread> list = new ArrayList();
         for (int i = 0; i < servs.size(); i++) {
