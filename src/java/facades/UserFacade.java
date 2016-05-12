@@ -206,11 +206,14 @@ public class UserFacade implements IUserFacade {
             System.out.println(response);
             System.out.println(con.getResponseCode());
             System.out.println(con.getResponseMessage());
+            
             JsonObject jsonTicket = new JsonParser().parse(response).getAsJsonObject();
-            jsonTicket.addProperty("airline", airline);
+            
+            if(HttpResult > 199 && HttpResult < 211){
             entity.UserReservation ur = new entity.UserReservation();
             ur.setTicket(jsonTicket.toString());
             RegisterTicket(ur, user);
+            }
         } catch (IOException ex) {
             Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);

@@ -1,29 +1,31 @@
-<div class="container">
-    <div class="conbag">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="table-responsive">
-                    <div class="bagimg" style="padding: 8px 30px;">
-                        <div class="table headings">	
-                            <h2>All Services List</h2>
-                            <table class="table">
-                                
-                                <tr ng-repeat="serv in Services" > 
-                                    <td>{{serv.name}}</td>
-                                    <td>{{serv.website}}</td>
-                                    <td><a ng-click="delete(serv.id, $index)">Delete</a></td>
-                                </tr>
-                            </table>
-                            <hr class="col-md-12" style="background: black; border:0; height:2px" />
-                            <form class="form-signin">
-                                <h2 class="form-signin-heading">Register New Service Here!</h2>
-                                <label for="inputName" class="sr-only">Service name</label>
-                                <input ng-model="newService.name" type="text" id="inputService" class="form-control" placeholder="name" required autofocus>
-                                <label for="inputWebsite" class="sr-only">Website</label>
-                                <input ng-model="newService.website" type="text" id="inputWeb" class="form-control" placeholder="website" required>
-                                <br/>
-                                <button ng-click="postNewService()" class="btn btn-lg btn-primary btn-block" type="submit">Create new Service</button>
-                            </form>
+<div ng-show="isAdmin">
+    <div class="container">
+        <div class="conbag">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <div class="bagimg" style="padding: 8px 30px;">
+                            <div class="table headings">	
+                                <h2>All Services List</h2>
+                                <table class="table">
+
+                                    <tr ng-repeat="serv in Services" > 
+                                        <td>{{serv.name}}</td>
+                                        <td>{{serv.website}}</td>
+                                        <td><a ng-click="delete(serv.id, $index)">Delete</a></td>
+                                    </tr>
+                                </table>
+                                <hr class="col-md-12" style="background: black; border:0; height:2px" />
+                                <form class="form-signin">
+                                    <h2 class="form-signin-heading">Register New Service Here!</h2>
+                                    <label for="inputName" class="sr-only">Service name</label>
+                                    <input ng-model="newService.name" type="text" id="inputService" class="form-control" placeholder="name" required autofocus>
+                                    <label for="inputWebsite" class="sr-only">Website</label>
+                                    <input ng-model="newService.website" type="text" id="inputWeb" class="form-control" placeholder="website" required>
+                                    <br/>
+                                    <button ng-click="postNewService()" class="btn btn-lg btn-primary btn-block" type="submit">Create new Service</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
