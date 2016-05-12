@@ -44,15 +44,16 @@ private Gson gson;
     @Produces("application/json")
     public String newTicket(String newTicket) {
         JsonObject ticket = new JsonParser().parse(newTicket).getAsJsonObject();
+        JsonObject stuff = new JsonObject();
         String user = ticket.remove("user").getAsString();
         String airline = ticket.remove("airline").getAsString();
         String flightID = ticket.get("flightID").getAsString();
         try {
-            UserFacade.ReserveTicketAirline(ticket.toString(),airline,flightID,user);
+            stuff = UserFacade.ReserveTicketAirline(ticket.toString(),airline,flightID,user);
         
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return gson.toJson(UserFacade.getTickets(user));
+        return gson.toJson(stuff);
     }
 }

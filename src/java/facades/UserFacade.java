@@ -164,10 +164,11 @@ public class UserFacade implements IUserFacade {
         return ja;
     }
 
-    public static UserReservation ReserveTicketAirline(String ticket, String airline, String flightID, String user) {
+    public static JsonObject ReserveTicketAirline(String ticket, String airline, String flightID, String user) {
         System.out.println(airline);
         System.out.println(flightID);
         InputStreamReader is = null;
+        JsonObject error = new JsonObject();
         try {
             List<Service> servs = ServiceFacade.getListService();
             System.out.println(servs.size());
@@ -210,22 +211,27 @@ public class UserFacade implements IUserFacade {
             JsonObject jsonTicket = new JsonParser().parse(response).getAsJsonObject();
             
             if(HttpResult > 199 && HttpResult < 211){
+            jsonTicket.addProperty("airline", airline);
             entity.UserReservation ur = new entity.UserReservation();
             ur.setTicket(jsonTicket.toString());
             RegisterTicket(ur, user);
             }
+            return jsonTicket;
         } catch (IOException ex) {
             Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
+            error.addProperty("ex msg", ex.getMessage());
+            
         } finally {
             try {
                 is.close();
             } catch (IOException ex) {
                 Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println(ex);
+                 error.addProperty("ex msg", ex.getMessage());
             }
         }
-        return new UserReservation();
+        return error;
     }
 
     private static JsonObject userToJson(User u) {
