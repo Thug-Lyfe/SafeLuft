@@ -12,18 +12,32 @@ angular.module('myApp.view5', ['ngRoute'])
         .controller("View5Ctrl", function ($http, $scope) {
             $http({
                 method: 'GET',
-                url: "/CA-3/api/admin/users"
+                url: "api/admin/Services"
             }).then(function (response){
-                $scope.users = response.data.users;
+                $scope.Services = response.data;
             });
             
-            $scope.delete = function(username, index){
+            $scope.delete = function(id, index){
                 $http({
                 method: 'Delete',
-                url: "/CA-3/api/admin/user/"+username
+                url: "api/admin/Service/"+id
             }).then(function (response){
                 $scope.users.splice(index,1);
             });
+            };
+            
+            $scope.newService = {
+            };
+            $scope.postnewuser = function () {
+                $http({
+                    method: 'POST',
+                    url: 'api/admin/Service',
+                    data: $scope.newService
+                }).then(function successCallback(res) {
+                    $scope.isRegistered = true;
+                }, function errorCallback(res) {
+                    $scope.error = res.status + ": " + res.data.statusText;
+                });
             };
             
         });

@@ -56,8 +56,15 @@ public class ServiceFacade {
                 Logger.getLogger(ServiceFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        
+//        List<String> origins = new ArrayList();
+//        List<String> dests = new ArrayList();
+//        JsonArray ja = fd.getFlights().getAsJsonArray();
+//        for (JsonElement airline : ja) {
+//            JsonObject jo = airline.getAsJsonObject();
+//            for (JsonElement flight : jo.get("flights").getAsJsonArray()) {
+//                JsonObject tf =
+//            }
+//        }
         return fd.getFlights();
     }
     
@@ -77,6 +84,10 @@ public class ServiceFacade {
         
     }
     public static List<Service> getListService(){
+        if(!updated){
+            update();
+            updated = true;
+        }
         return servs;
     }
     public static JsonElement getServices(){

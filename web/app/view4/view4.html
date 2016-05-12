@@ -1,59 +1,49 @@
 
 
+<div class="container" ng-show="isFound">
 
-<div>
-    <h2>Exchange Rate Calculator</h2>
-    <br/>
-    <form class='form-horizontal'>
-        <label>From:</label>
-        <div class='form-inline'>
-            <input ng-change="calculate()" ng-model='fromAmount' type="number" class="form-control" placeholder="Amount"> 
-            <select class="form-control" ng-model="fromValuta"> 
-                <option ng-repeat="valuta in res" value='{{valuta.code}}'>{{valuta.desc}}</option> 
-            </select>
-        </div>
-        <br/>
-        <label>To:</label>
-        <div class='form-inline'>
-            <input ng-change="calculate2()" ng-model="toAmount" type="number" class="form-control" placeholder="Amount">
-            <select class="form-control" ng-model='toValuta'> 
-                <option ng-repeat="valuta in res" value='{{valuta.code}}'>{{valuta.desc}}</option> 
-            </select>
-        </div>
-        <br/>
-        <div class='form-inline'>
-            <button class='btn btn-primary' ng-click='calculate()' >Calculate</button>
-        </div>
-    </form>
+    <div class="conbag">
+        <div class="bagimg" style="padding: 8px 30px;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
 
-    <hr style="background: black; border:0; height:2px" />
-    <h2>Currency Rates: {{tit}}</h2>
-    <div>
-        <table ng-table="tableParams" class="table" show-filter="true">
-            <tr ng-repeat="rate in $data">
-                <td style="width: 70%" title="'Valuta'" filter="{ desc: 'text'}" sortable="'desc'">
-                    {{rate.desc}}</td>
-                <td style="width: 15%" title="'ISO'" filter="{ code: 'text'}" sortable="'code'">
-                    {{rate.code}}</td>
-                <td style="width: 15%" title="'Rate'" filter="{ rate: 'number'}" sortable="'rate'">
-                    {{rate.rate}}</td>
-            </tr>
-        </table>
+                        <div class="table headings">	
+                            <h4>Reservations:</h4>
+                            <uib-accordion>
+                                <uib-accordion-group heading="Flight Number: {{unit.flightNumber}}" ng-repeat="unit in res">
+                                    <dl class="dl-horizontal">
+                                        <dt>Customer Name:</dt>
+                                        <dd>{{unit.reserveeName}}</dd>
+                                        <dt>Flight Origin</dt>
+                                        <dd>{{unit.origin}}</dd>
+                                        <dt>Flight Destination</dt>
+                                        <dd>{{unit.destination}}</dd>
+                                        <dt>Date of Departure:</dt>
+                                        <dd>DATE({{unit.date}});</dd>
+                                        <dt>Flight Duration:</dt>
+                                        <dd>{{unit.flightTime}} min</dd>
+
+                                        <dt>Number of passengers: </dt>
+                                        <dd>{{unit.numberOfSeats}}</dd>
+                                        <br>
+                                        <table>
+                                            <tr>
+                                                <td><strong>First Name</strong></td><td><strong>Last Name</strong></td>
+                                            </tr>
+                                            <tr ng-repeat="pass in unit.passengers">
+                                                <td>{{pass.firstName}}</td>
+                                                <td>{{pass.lastName}}</td>
+                                            </tr>
+                                        </table>
+                                    </dl>
+                                </uib-accordion-group>
+                            </uib-accordion>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!--    <div>
-            <table class="table table-condensed table-bordered">
-                <thead>
-                <th ng->Valuta</th>
-                <th style="width: 50px">ISO</th>
-                <th style="width: 50px">rate</th>
-                </thead>
-                <tr ng-repeat="x in res">
-                    <td>{{ x.desc}}</td>
-                    <td>{{ x.code}}</td>
-                    <td>{{ x.rate}}</td>
-                </tr>
-            </table>
-            
-        </div>-->
-    <hr style="background: black; border:0; height:2px" />
+
 </div>
