@@ -44,22 +44,14 @@ private Gson gson;
     @Produces("application/json")
     public String newTicket(String newTicket) {
         JsonObject ticket = new JsonParser().parse(newTicket).getAsJsonObject();
-        entity.UserReservation ur = new entity.UserReservation();
         String user = ticket.remove("user").getAsString();
-        String airline = ticket.get("airline").getAsString();
+        String airline = ticket.remove("airline").getAsString();
         String flightID = ticket.get("flightID").getAsString();
-        ur.setTicket(ticket.toString());
         try {
-            UserFacade.ReserveTicketAirline(ticket.toString(),airline,flightID);
-            UserFacade.RegisterTicket(ur, user);
+            UserFacade.ReserveTicketAirline(ticket.toString(),airline,flightID,user);
         
         } catch (Exception ex) {
-
-StringWriter sw = new StringWriter();
-PrintWriter pw = new PrintWriter(sw);
-ex.printStackTrace(pw);
-sw.toString(); 
-  
+            System.out.println(ex);
         }
         return gson.toJson(UserFacade.getTickets(user));
     }

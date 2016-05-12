@@ -1,10 +1,12 @@
 {
-  "name": "AngularSeed for 3. semester Computer Science at cphbusiness",
+  "name": "semester project",
   "version": "0.0.0",
   "authors": [
-    "LMO <lam@cphbusiness.dk>"
+    "MSB",
+    "DMBS",
+    "AJK"
   ],
-  "description": "Semesterseed for exercises and project",
+  "description": "momondo meta search flight engine",
   "license": "MIT",
   "ignore": [
     "**/.*",

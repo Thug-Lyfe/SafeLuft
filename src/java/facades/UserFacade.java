@@ -3,7 +3,6 @@ package facades;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
@@ -165,22 +164,29 @@ public class UserFacade implements IUserFacade {
         return ja;
     }
 
-    public static void ReserveTicketAirline(String ticket, String airline, String flightID) {
+    public static UserReservation ReserveTicketAirline(String ticket, String airline, String flightID, String user) {
+        System.out.println(airline);
+        System.out.println(flightID);
         InputStreamReader is = null;
         try {
             List<Service> servs = ServiceFacade.getListService();
+            System.out.println(servs.size());
+            System.out.println(servs.get(0).getName());
+            System.out.println(servs.get(1).getName());
             String url = "";
-            String lars = "/api/reservation/";
-            if (url.equals("http://angularairline-plaul.rhcloud.com")) {
-                lars = "/api/flightreservation/";
-            }
             for (Service serv : servs) {
                 if (serv.getName().equals(airline)) {
                     url = serv.getWebsite();
                 }
             }
+            
+            String lars = "/api/reservation/";
+            if (url.equals("http://angularairline-plaul.rhcloud.com")) {
+                lars = "/api/flightreservation/";
+            }
+            System.out.println(url);
+            
             url = url + lars + flightID;
-
             HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
             con.setRequestProperty("Content-Type", "application/json;");
             con.setRequestProperty("Accept", "application/json");
@@ -200,15 +206,23 @@ public class UserFacade implements IUserFacade {
             System.out.println(response);
             System.out.println(con.getResponseCode());
             System.out.println(con.getResponseMessage());
+            JsonObject jsonTicket = new JsonParser().parse(response).getAsJsonObject();
+            jsonTicket.addProperty("airline", airline);
+            entity.UserReservation ur = new entity.UserReservation();
+            ur.setTicket(jsonTicket.toString());
+            RegisterTicket(ur, user);
         } catch (IOException ex) {
             Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         } finally {
             try {
                 is.close();
             } catch (IOException ex) {
                 Logger.getLogger(JsonPoster.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex);
             }
         }
+        return new UserReservation();
     }
 
     private static JsonObject userToJson(User u) {

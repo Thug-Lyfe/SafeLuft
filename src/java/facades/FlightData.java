@@ -21,7 +21,7 @@ public class FlightData {
         ja.add(newFlights);
     }
     
-    public synchronized JsonElement getFlights() throws FlightException{
+    public synchronized JsonArray getFlights() throws FlightException{
         if(ja.toString().length() < 10){
             throw new FlightException(1,404);
         }

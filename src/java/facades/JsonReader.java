@@ -51,12 +51,12 @@ public class JsonReader extends Thread {
 
     private static JsonObject readJsonFromUrl(String url) throws IOException {
         InputStream is = null;
-        JsonObject json = new JsonObject();
+        
         try {
             is = new URL(url).openStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
-            json = new JsonParser().parse(jsonText).getAsJsonObject();
+            JsonObject json = new JsonParser().parse(jsonText).getAsJsonObject();
             return json;
         }finally {
             if(is != null){
