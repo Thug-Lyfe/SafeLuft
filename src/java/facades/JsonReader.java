@@ -33,9 +33,9 @@ public class JsonReader extends Thread {
             lars = "/api/flightinfo/";
         }
         if (to.equals("")) {
-            this.url = url + lars + from + "/" + date + "T00:00:00.000Z/" + tickets;
+            this.url = url + lars + from + "/" + date + "/" + tickets;
         } else {
-            this.url = url + lars + from + "/" + to + "/" + date + "T00:00:00.000Z/" + tickets;
+            this.url = url + lars + from + "/" + to + "/" + date + "/" + tickets;
         }
         this.fd = fd;
     }
