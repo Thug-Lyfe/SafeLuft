@@ -18,7 +18,13 @@ angular.module('myApp', [
     'myApp.directives',
     'myApp.factories',
     'myApp.services',
-    'ngTable'
+    'ngTable',
+    'conditionize.jquery',
+    'jquery.min',
+    'bootstrap-datetimepicker.min',
+    'moment-with-locales',
+    'bootstrap.min',
+    'custom'
 ])
         .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/view1'});

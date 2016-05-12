@@ -18,7 +18,12 @@
         <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
         <link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-
+        <script src="js/custom.js"></script>
+        <script src="js/bootstrap.min.js"></script>	  
+        <script src="js/moment-with-locales.js"></script>
+        <script src="js/bootstrap-datetimepicker.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="js/conditionize.jquery.js"></script>
         <script src="app/app.js"></script>
         <script src="app/ngAutocomplete.js"></script>
         <script src="app/view1/view1.js"></script>
@@ -35,6 +40,57 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0-beta.9/ng-table.min.css" >
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0-beta.9/ng-table.js"></script>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="js/conditionize.jquery.js"></script>	
+        <script>
+                                            $('.conditional').conditionize();
+        </script>
+        <script src="js/custom.js"></script>
+        <script src="js/bootstrap.min.js"></script>	  
+        <script src="js/moment-with-locales.js"></script>
+        <script src="js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepicker6').datetimepicker({
+                                                    format: 'DD/MM/YYYY'
+                                                });
+                                                $('#datetimepicker7').datetimepicker({
+                                                    format: 'DD/MM/YYYY'
+                                                });
+
+                                                $('#datetimepicker6').datetimepicker();
+                                                $('#datetimepicker7').datetimepicker({
+                                                    useCurrent: false //Important! See issue #1075
+                                                });
+                                                $("#datetimepicker6").on("dp.change", function (e) {
+                                                    $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                                                });
+                                                $("#datetimepicker7").on("dp.change", function (e) {
+                                                    $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                                                });
+
+                                            });
+                                            $(function () {
+                                                $('#datetimepicker8').datetimepicker({
+                                                    format: 'DD/MM/YYYY'
+                                                });
+                                                $('#datetimepicker9').datetimepicker({
+                                                    format: 'DD/MM/YYYY'
+                                                });
+
+                                                $('#datetimepicker8').datetimepicker();
+                                                $('#datetimepicker9').datetimepicker({
+                                                    useCurrent: false //Important! See issue #1075
+                                                });
+                                                $("#datetimepicker8").on("dp.change", function (e) {
+                                                    $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
+                                                });
+                                                $("#datetimepicker8").on("dp.change", function (e) {
+                                                    $('#datetimepicker9').data("DateTimePicker").maxDate(e.date);
+                                                });
+
+                                            });
+        </script>
 
 
     </head>
@@ -92,144 +148,7 @@
                 </div>
             </div>
         </header>
-        <div ng-show="showSirch" class="content">
-            <div class="container">
-                <div class="conbag">
-                    <div class="bagimg">
-                        <img class="img-responsive w100" src="images/hotel.jpg" />
-                    </div>
-                    <div class="banner_bg">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div id="flighform">
-                                    <label><input type="radio" name="example1" value="flight" checked="checked" ><span></span> Get Me Out Of Here</label>
-                                    <label><input type="radio" name="example1" value="spec"><span></span> Get Me Here</label>
-
-                                    <div class="conditional" data-cond-option="example1" data-cond-value="flight">
-                                        <form id="form" role="form">
-                                            <div class="row" >
-                                                <div class="col-sm-6" >
-                                                    <label>From</label>
-                                                    <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
-                                                    <br>
-                                                </div>
-                                            </div>
-                                            <div class="row">	
-                                                <div class="col-sm-6">	
-                                                    <div class="row">		 
-                                                        <div class='col-md-12'>
-                                                            <div class="form-group">
-                                                                <label>Depart</label>
-                                                                <div class='input-group date' id='datetimepicker8'>
-                                                                    <input type='text' class="form-control" />
-                                                                    <span class="input-group-addon">
-                                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>Amount of Tickets</label>
-                                                    <input type="number" id="total" class="form-control" placeholder="Travellers">
-
-                                                    <!-- <div id="counter">
-                                                              <h1>kartik jat</h1>
-                                                             </div>-->
-
-
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <button type="submit" class="btn btn-default">Search</button>
-                                                </div>		  
-                                            </div>
-                                            </br>
-
-                                        </form>
-                                    </div>
-
-                                    <div class="conditional" data-cond-option="example1" data-cond-value="spec">
-                                        <form>
-                                            <div class="row" >
-                                                <div class="col-sm-6">
-                                                    <label>From</label>
-                                                    <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
-                                                    <br>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>To</label>
-                                                    <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
-                                                    <br>
-                                                </div>
-                                            </div>
-                                            <div class="row">	
-                                                <div class="col-sm-6">	
-                                                    <div class="row">		 
-                                                        <div class='col-md-12'>
-                                                            <div class="form-group">
-                                                                <label>Depart</label>
-                                                                <div class='input-group date' id='datetimepicker8'>
-                                                                    <input type='text' class="form-control" />
-                                                                    <span class="input-group-addon">
-                                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!--<div class='col-md-6'>
-                                                                <div class="form-group">
-                                                                    <label>Return</label>
-                                                                        <div class='input-group date' id='datetimepicker9'>
-                                                                                <input type='text' class="form-control" />
-                                                                                    <span class="input-group-addon">
-                                                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                                                </span>
-                                                                        </div>
-                                                                </div>
-                                                    </div>--->
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>Amount of Tickets</label>
-                                                    <input type="number" id="total" class="form-control" placeholder="Travellers">
-
-                                                    <!-- <div id="counter">
-                                                              <h1>kartik jat</h1>
-                                                             </div>-->
-
-
-                                                </div>
-                                            </div>
-                                            <div class="row">	
-                                                <div class="col-sm-6">
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <button type="submit" class="btn btn-default">Search</button>
-                                                </div>		  
-                                            </div>
-                                            </br>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <img class="img-responsive" src="images/rotate30.png" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            
-
-        </div>
+        <div ng-view></div>
         <footer>
             <div class="container">
                 <div class="row">
@@ -289,57 +208,7 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="js/conditionize.jquery.js"></script>	
-        <script>
-                                $('.conditional').conditionize();
-        </script>
-        <script src="js/custom.js"></script>
-        <script src="js/bootstrap.min.js"></script>	  
-        <script src="js/moment-with-locales.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>
-        <script type="text/javascript">
-                                $(function () {
-                                    $('#datetimepicker6').datetimepicker({
-                                        format: 'DD/MM/YYYY'
-                                    });
-                                    $('#datetimepicker7').datetimepicker({
-                                        format: 'DD/MM/YYYY'
-                                    });
-
-                                    $('#datetimepicker6').datetimepicker();
-                                    $('#datetimepicker7').datetimepicker({
-                                        useCurrent: false //Important! See issue #1075
-                                    });
-                                    $("#datetimepicker6").on("dp.change", function (e) {
-                                        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-                                    });
-                                    $("#datetimepicker7").on("dp.change", function (e) {
-                                        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-                                    });
-
-                                });
-                                $(function () {
-                                    $('#datetimepicker8').datetimepicker({
-                                        format: 'DD/MM/YYYY'
-                                    });
-                                    $('#datetimepicker9').datetimepicker({
-                                        format: 'DD/MM/YYYY'
-                                    });
-
-                                    $('#datetimepicker8').datetimepicker();
-                                    $('#datetimepicker9').datetimepicker({
-                                        useCurrent: false //Important! See issue #1075
-                                    });
-                                    $("#datetimepicker8").on("dp.change", function (e) {
-                                        $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
-                                    });
-                                    $("#datetimepicker8").on("dp.change", function (e) {
-                                        $('#datetimepicker9').data("DateTimePicker").maxDate(e.date);
-                                    });
-
-                                });
-        </script>
+        
         <script type="text/ng-template" id="errorModal.html">
             <div class="modal-header">
             <h3 class="modal-title">Error!</h3>
@@ -365,7 +234,7 @@
             <label for="inputPassword" class="sr-only">Password</label>
             <input ng-model="newuser.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
             <br/>
-            <button ng-click="postnewuser()" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+            <button ng-click="postnewuser()" class="btn btn-default" type="submit">Sign up</button>
             </form>
             <div ng-show="isRegistered">
             <p>Welcome {{newuser.username}}!</p>
@@ -389,7 +258,7 @@
             <label for="inputPassword" class="sr-only">Password</label>
             <input ng-model="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
             <br/>
-            <button ng-click="login()" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+            <button ng-click="login()" class="btn btn-default" type="submit">Sign up</button>
             </form>
             </div>
             <div class="modal-footer" ng-show="isAuthenticated">

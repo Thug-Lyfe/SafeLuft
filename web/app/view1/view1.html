@@ -1,0 +1,250 @@
+<div ng-show="showSirch" class="content">
+    <div class="container">
+        <div class="conbag">
+            <div class="bagimg">
+                <img class="img-responsive w100" src="images/hotel.jpg" />
+            </div>
+            <div class="banner_bg">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="flighform">
+                            <label><input type="radio" name="example1" value="flight" checked="checked" ><span></span> Get Me Out Of Here</label>
+                            <label><input type="radio" name="example1" value="spec"><span></span> Get Me Here</label>
+
+                            <div class="conditional" data-cond-option="example1" data-cond-value="flight">
+                                <form id="form" role="form">
+                                    <div class="row" >
+                                        <div class="col-sm-6" >
+                                            <label>From</label>
+                                            <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <div class="row">	
+                                        <div class="col-sm-6">	
+                                            <div class="row">		 
+                                                <div class='col-md-12'>
+                                                    <div class="form-group">
+                                                        <label>Depart</label>
+                                                        <div class='input-group date' id='datetimepicker8'>
+                                                            <input type='text' class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label>Amount of Tickets</label>
+                                            <input type="number" id="total" class="form-control" placeholder="Travellers">
+
+                                            <!-- <div id="counter">
+                                                      <h1>kartik jat</h1>
+                                                     </div>-->
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button type="submit" class="btn btn-default">Search</button>
+                                        </div>		  
+                                    </div>
+                                    </br>
+
+                                </form>
+                            </div>
+
+                            <div class="conditional" data-cond-option="example1" data-cond-value="spec">
+                                <form>
+                                    <div class="row" >
+                                        <div class="col-sm-6">
+                                            <label>From</label>
+                                            <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
+                                            <br>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label>To</label>
+                                            <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <div class="row">	
+                                        <div class="col-sm-6">	
+                                            <div class="row">		 
+                                                <div class='col-md-12'>
+                                                    <div class="form-group">
+                                                        <label>Depart</label>
+                                                        <div class='input-group date' id='datetimepicker8'>
+                                                            <input type='text' class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--<div class='col-md-6'>
+                                                        <div class="form-group">
+                                                            <label>Return</label>
+                                                                <div class='input-group date' id='datetimepicker9'>
+                                                                        <input type='text' class="form-control" />
+                                                                            <span class="input-group-addon">
+                                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                                        </span>
+                                                                </div>
+                                                        </div>
+                                            </div>--->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label>Amount of Tickets</label>
+                                            <input type="number" id="total" class="form-control" placeholder="Travellers">
+
+                                            <!-- <div id="counter">
+                                                      <h1>kartik jat</h1>
+                                                     </div>-->
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">	
+                                        <div class="col-sm-6">
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <button type="submit" class="btn btn-default">Search</button>
+                                        </div>		  
+                                    </div>
+                                    </br>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <img class="img-responsive" src="images/rotate30.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<div ng-show="showSirch" class="content">
+    <div class="container">
+        <div class="conbag">
+            <div class="bagimg" style="padding: 8px 30px;">
+                <div class="row">
+                    <div class="col-sm-12">
+                        </br>
+                        <div class="table-responsive">
+
+                            <table class="table headings">	
+
+                                <tr>
+                                    <td><strong>Dep.</strong></td><td><strong>Arr.</strong></td><td><strong>Time</strong></td><td>	<strong>See details</strong></td><td><strong>Reserve Tickets</strong></td>
+                                </tr>
+                            </table>		  
+                        </div>
+                        </br>
+                        <p><a href="#"><i class="fa fa-sort-asc" aria-hidden="true"></i> <span>Show earlier departures</span></a></p>
+
+
+
+
+                        <div class="table-responsive">	   
+                            <table class="table headings">	
+
+                                <tr>
+                                    <td>15:09</td><td>18:48</td><td>3:39</td><td>	<a onclick="document.getElementById('step1').click()" ><i class="fa fa-info-circle" aria-hidden="true"></i> Detail</a></td><td><a class="bookbut1" href="#">Buy
+                                            TICKETS</a></td>
+                                </tr>
+                            </table>	
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                            <a role="button" id="step1" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                <i class="fa fa-info-circle" aria-hidden="true"></i>  Detail</a>
+
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+
+                                                <tr><th><i class="fa fa-plane" aria-hidden="true"></i> Depart from</th><th>Indiakaj 1, 2100 København Ø, Københavns Kommune</th><th><a href="#"><i class="fa fa-eye" aria-hidden="true"></i> See more</a></th></tr>
+                                                <tr><th>&nbsp; &nbsp; 09:20 (arr)</br>
+                                                        &nbsp; &nbsp; 09:23 (dep)</th><th>walk (approx. 100 m, approx. 3 min.)</th><th><a href="#"><i class="fa fa-eye" aria-hidden="true"></i> Show Rote on Map</a></th></tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        </br>
+
+                        <p><a href="#"><i class="fa fa-caret-down" aria-hidden="true"></i> <span>Show earlier departures</span</a></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+	
+<script>
+                                                $('.conditional').conditionize();
+</script>
+
+<script type="text/javascript">
+                                                $(function () {
+                                                    $('#datetimepicker6').datetimepicker({
+                                                        format: 'DD/MM/YYYY'
+                                                    });
+                                                    $('#datetimepicker7').datetimepicker({
+                                                        format: 'DD/MM/YYYY'
+                                                    });
+
+                                                    $('#datetimepicker6').datetimepicker();
+                                                    $('#datetimepicker7').datetimepicker({
+                                                        useCurrent: false //Important! See issue #1075
+                                                    });
+                                                    $("#datetimepicker6").on("dp.change", function (e) {
+                                                        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                                                    });
+                                                    $("#datetimepicker7").on("dp.change", function (e) {
+                                                        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                                                    });
+
+                                                });
+                                                $(function () {
+                                                    $('#datetimepicker8').datetimepicker({
+                                                        format: 'DD/MM/YYYY'
+                                                    });
+                                                    $('#datetimepicker9').datetimepicker({
+                                                        format: 'DD/MM/YYYY'
+                                                    });
+
+                                                    $('#datetimepicker8').datetimepicker();
+                                                    $('#datetimepicker9').datetimepicker({
+                                                        useCurrent: false //Important! See issue #1075
+                                                    });
+                                                    $("#datetimepicker8").on("dp.change", function (e) {
+                                                        $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
+                                                    });
+                                                    $("#datetimepicker8").on("dp.change", function (e) {
+                                                        $('#datetimepicker9').data("DateTimePicker").maxDate(e.date);
+                                                    });
+
+                                                });
+</script>
