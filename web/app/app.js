@@ -18,13 +18,7 @@ angular.module('myApp', [
     'myApp.directives',
     'myApp.factories',
     'myApp.services',
-    'ngTable',
-    'conditionize.jquery',
-    'jquery.min',
-    'bootstrap-datetimepicker.min',
-    'moment-with-locales',
-    'bootstrap.min',
-    'custom'
+    'ngTable'
 ])
         .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/view1'});
@@ -35,22 +29,7 @@ angular.module('myApp', [
 
 
 
-        .controller("AutoCtrl", function ($scope) {
-
-            $scope.result1 = '';
-            $scope.options1 = null;
-            $scope.details1 = '';
-
-
-
+        .controller("SirchController", function ($scope) {
+            $scope.results = true;
             
-
-
-
-            $scope.result3 = '';
-            $scope.options3 = {
-                country: 'gb',
-                types: 'establishment'
-            };
-            $scope.details3 = '';
         });
