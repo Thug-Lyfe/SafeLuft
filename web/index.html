@@ -123,9 +123,9 @@
                                                         <div class="row">		 
                                                             <div class='col-md-12'>
                                                                 <div class="form-group">
-                                                                    <label>Depart</label>
+                                                                    <label>Date</label>
 
-                                                                    <input class="form-control" ng-model="flightdate" type="date" class="form-control" >
+                                                                    <input class="form-control" ng-model="flightdate" type="date">
 
 
                                                                 </div>
@@ -155,12 +155,12 @@
                                                 <div class="row" >
                                                     <div class="col-sm-6">
                                                         <label>From</label>
-                                                        <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
+                                                        <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="specfrom" details="details2" options="options2"/>
                                                         <br>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label>To</label>
-                                                        <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="result2" details="details2" options="options2"/>
+                                                        <input type="text" class="form-control" placeholder="City Name" ng-autocomplete="specto" details="details2" options="options2"/>
                                                         <br>
                                                     </div>
                                                 </div>
@@ -169,13 +169,8 @@
                                                         <div class="row">		 
                                                             <div class='col-md-12'>
                                                                 <div class="form-group">
-                                                                    <label>Depart</label>
-                                                                    <div class='input-group date' id='datetimepicker9'>
-                                                                        <input type='text' class="form-control" placeholder="YYYY-MM-DD"/>
-                                                                        <span class="input-group-addon">
-                                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                                        </span>
-                                                                    </div>
+                                                                    <label>Date</label>
+                                                                    <input class="form-control" ng-model="specdate" type="date">
                                                                 </div>
                                                             </div>
                                                             <!--<div class='col-md-6'>
@@ -193,7 +188,7 @@
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label>Amount of Tickets</label>
-                                                        <input type="number" id="total" class="form-control" placeholder="Travellers">
+                                                        <input type="number" ng-model="spectickets" id="total" class="form-control" placeholder="Amount">
 
                                                         <!-- <div id="counter">
                                                                   <h1>kartik jat</h1>
@@ -207,7 +202,7 @@
                                                     </div>
 
                                                     <div class="col-sm-6">
-                                                        <button type="submit" class="btn btn-default">Search</button>
+                                                        <button ng-click="findspec()" type="submit" class="btn btn-default">Search</button>
                                                     </div>		  
                                                 </div>
                                                 </br>
@@ -245,45 +240,61 @@
                                     </div>
                                     </br>
                                     <p><a href="#"><i class="fa fa-sort-asc" aria-hidden="true"></i> <span>Show earlier departures</span></a></p>
-
-
-
-                                    <div ng-repeat="flight in allflights | orderBy: 'time'">
+                                    {{resv}}{{detail}}
+                                    <div ng-repeat="flight in allflights| orderBy: 'time'">
                                         <div class="table-responsive" >	   
                                             <table class="table headings">	
 
                                                 <tr>
-                                                    <td>{{flight.airline}}</td><td>{{flight.time}}</td><td>{{flight.arrival}}</td><td>{{flight.traveltime| time:'mm':'hhh mmm':false}}</td><td>{{flight.destination}}</td><td>	<a ng-click="expand($index)" ><i class="fa fa-info-circle" aria-hidden="true"></i> Detail</a></td><td><a class="bookbut1" href="#">Buy
-                                                            TICKETS</a></td>
+                                                    <td>{{flight.airline}}</td><td>{{flight.time}}</td><td>{{flight.arrival}}</td><td>{{flight.traveltime| time:'mm':'hhh mmm':false}}</td><td>{{flight.destination}}</td><td>	<a ng-click="expand($index)" ><i class="fa fa-info-circle" aria-hidden="true"></i> Detail</a></td><td><a ng-click="reserve($index)" ><i class="fa fa-info-circle" aria-hidden="true"></i> Reserve</a></td>
                                                 </tr>
                                             </table>	
-                                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading" role="tab" id="headingOne">
                                                         <h4 class="panel-title">
                                                             <a role="button" id="box{{$index}}" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}" aria-expanded="false" aria-controls="collapse{{$index}}">
                                                                 <i class="fa fa-info-circle" aria-hidden="true"></i>  Detail</a>
-
                                                         </h4>
+
                                                     </div>
                                                     <div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                                                        <div class="panel-body">
+                                                        <div ng-show="!resv" class="panel-body">
                                                             <table class="table table-striped">
-
-                                                                <tr><th><i class="fa fa-plane" aria-hidden="true"></i> Depart from</th><th>{{flight.origin}}</th><th><a href="#"><i class="fa fa-eye" aria-hidden="true"></i> See more</a></th></tr>
-                                                                <tr><th>&nbsp; &nbsp; {{flight.time}} (arr)</br>
-                                                                        &nbsp; &nbsp; {{flight.arrival}} (dep)</th><th>walk (approx. 100 m, approx. 3 min.)</th><th><a href="#"><i class="fa fa-eye" aria-hidden="true"></i> Show Rote on Map</a></th></tr>
+                                                                <tr><h3>&nbsp;<i class="fa fa-plane" aria-hidden="true"></i>&nbsp; Flight: {{flight.flightNumber}}</h3></tr>
+                                                                <tr><th style="width: 5px; text-align: center;"><i class="fa fa-map-marker" aria-hidden="true"></i> </th><th> <b>Departure from:</b> {{flight.origin}}</th><th><b>At:</b> {{flight.time}}</th></tr>
+                                                                <tr><th style="width: 5px; text-align: center;"><i class="fa fa-map-marker" aria-hidden="true"></i> </th><th> <b>Arrival at:</b> {{flight.destination}}</th><th><b>At:</b> {{flight.arrival}}</th></tr>
+                                                                <tr><th style="width: 5px; text-align: center;"><i class="fa fa-credit-card" aria-hidden="true"></i></th><th><b>Price per Ticket:</b> {{flight.totalPrice / flight.numberOfSeats| currency}}</th><th><b>Total Price:</b> {{flight.totalPrice| currency}}</th></tr>
                                                             </table>
+                                                        </div>
+                                                        <div ng-show="resv" class="panel-body">
+                                                            <form>
+                                                                <table class="table table-striped">
+                                                                    <tr><td><label>Name</label></td>
+                                                                        <td><input class="form-control" type="text" ng-model="ticket.reserveeName" /></td></tr>
+                                                                    <tr><td><label>Phone Number</label></td>
+                                                                        <td><input class="form-control" type="text" ng-model="ticket.reserveePhone" /></td></tr>
+                                                                    <tr><td><label>Email</label></td>
+                                                                        <td><input class="form-control" type="email" ng-model="ticket.reserveeEmail" /></td></tr>
+                                                                    <tr><th><label>Passenger Names:</label></th><th></th></tr>
+                                                                    <tr><td><label>First Name{{ticket.pass[0].firstName}}</label></td><td><label>Last Name</label></td></tr>
+                                                                    <tr ng-repeat="n in seats(flight.numberOfSeats) track by $index"><td><input class="form-control" type="text" ng-model="pass[$index].firstName"/></td><td><input class="form-control" type="text" ng-model="pass[$index].lastName"/></td></tr>
+                                                                </table>
+                                                                <button ng-click="reservetickets(flight)" type="submit" class="btn btn-default">Reserve</button>
+                                                            </form>
+                                                            {{resrep}}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
+
+
                                         </div>
                                         </br>
                                     </div>
 
-                                    <p><a href="#"><i class="fa fa-caret-down" aria-hidden="true"></i> <span>Show earlier departures</span</a></p>
+                                    <p><a href="#"><i class="fa fa-caret-down" aria-hidden="true"></i> <span>Show later departures</span</a></p>
                                 </div>
                             </div>
                         </div>
@@ -357,25 +368,25 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/conditionize.jquery.js"></script>	
         <script>
-                                                                            $('.conditional').conditionize();</script>
+                                                                    $('.conditional').conditionize();</script>
         <script src="js/custom.js"></script>
         <script src="js/bootstrap.min.js"></script>	  
         <script src="js/moment-with-locales.js"></script>
         <script src="js/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript">
 
-                                                                            $(function () {
-                                                                                $('#datetimepicker8').datetimepicker({
-                                                                                    format: 'YYYY-MM-DD'
-                                                                                });
-                                                                                $('#datetimepicker8').datetimepicker();
-                                                                            });
-                                                                            $(function () {
-                                                                                $('#datetimepicker9').datetimepicker({
-                                                                                    format: 'YYYY-MM-DD'
-                                                                                });
-                                                                                $('#datetimepicker9').datetimepicker();
-                                                                            });
+                                                                    $(function () {
+                                                                        $('#datetimepicker8').datetimepicker({
+                                                                            format: 'YYYY-MM-DD'
+                                                                        });
+                                                                        $('#datetimepicker8').datetimepicker();
+                                                                    });
+                                                                    $(function () {
+                                                                        $('#datetimepicker9').datetimepicker({
+                                                                            format: 'YYYY-MM-DD'
+                                                                        });
+                                                                        $('#datetimepicker9').datetimepicker();
+                                                                    });
 
         </script>
 
