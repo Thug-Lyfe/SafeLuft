@@ -5,8 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import facades.UserFacade;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("demouser")
-//@RolesAllowed("User")
+@RolesAllowed("User")
 public class User {
 private Gson gson;
     public User() {

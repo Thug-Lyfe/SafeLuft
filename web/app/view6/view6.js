@@ -11,18 +11,14 @@ angular.module('myApp.view6', ['ngRoute'])
             }])
 
         .controller('View6Ctrl', function ($http, $scope) {
-            $scope.newuser = {
-            };
-            $scope.postnewuser = function () {
-                $http({
-                    method: 'POST',
-                    url: 'api/newuser',
-                    data: $scope.newuser
-                }).then(function successCallback(res) {
-                    $scope.isRegistered = true;
-                }, function errorCallback(res) {
-                    $scope.error = res.status + ": " + res.data.statusText;
-                });
+           $scope.runit = function () {
+                $http({method: "GET",
+                    url: "/SafeLuft/api/admin/score/" + document.getElementById("scoreLine").value
+                })
+                        .then(function successCallback(response) {
+                            $scope.res = response.data;
+                            $scope.isFound = true;
+                        });
             };
 
         });

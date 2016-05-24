@@ -1,19 +1,42 @@
-<div class="col-sm-4" ng-show="!isRegistered"></div>
-<div class="col-sm-4" ng-show="!isRegistered">
+<script>runit();</script>
+<div ng-show="isAdmin">
 
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Register Here!</h2>
-        <label for="inputUser" class="sr-only">Username</label>
-        <input ng-model="newuser.username" type="text" id="inputUser" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input ng-model="newuser.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <br/>
-        <button ng-click="postnewuser()" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
-      </form>
+    <div class="bagimg" style="padding: 8px 30px;">
+        <div class="container" role="document">
+            <div class="conbag">
+
+
+
+                <div class="col-sm-12">
+                    <form style="padding: 15px 50px;" class="col-sm-6">
+                        <input value="5" type="number" id="scoreLine"/>
+                        <div class="col-sm-6">
+                            <button ng-click="runit()" type="submit" class="btn btn-default">Get Cities!</button>
+                        </div>	
+                    </form>
+                    <div class="row">             
+                        <div class="table-responsive">
+                            <div class="table headings">
+                                <h4>City Scores:</h4>
+
+                                <table>
+                                    <tr>
+                                        <td><strong>City</strong></td><td><strong>IATA Code</strong></td><td><strong>Score</strong></td>
+                                    </tr>
+                                    <tr ng-repeat="pass in res">
+                                        <td>{{pass.airport}}</td>
+                                        <td>{{pass.code}}</td>
+                                        <td>{{pass.score}}</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
-<div class="col-sm-4" ng-show="!isRegistered"></div>
-<div ng-show="isRegistered">
-    <h1>You have now been registered!</h1>
-    <p>You can now login with your username: {{newuser.username}} and your password: {{newuser.password}}</p>
 </div>
+

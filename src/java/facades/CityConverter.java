@@ -45,11 +45,13 @@ public class CityConverter {
 //        List<String> test = cityToCodes("copenhagen, denmark","London, United Kingdom");
 //        System.out.println(test.get(0));
 //        System.out.println(test.get(1));
-        EntityManager em = emf.createEntityManager();
-        List<IataCodes> codes;
-        Query q = em.createQuery("SELECT c from IataCodes c");
-        codes = q.getResultList();
-        System.out.println(codes.size());
+//        EntityManager em = emf.createEntityManager();
+//        List<IataCodes> codes;
+//        Query q = em.createQuery("SELECT c from IataCodes c");
+//        codes = q.getResultList();
+//        System.out.println(codes.size());
+          System.out.println(getStatsList(5).size());
+          System.out.println(getStatsList(5).get(0).getAirport());
     }
 
     public static JsonObject codesToJson(List<String> codes) {
@@ -131,7 +133,7 @@ public class CityConverter {
         EntityManager em = emf.createEntityManager();
         List<IataCodes> stats;
         Query q2 = em.createQuery("SELECT f from IataCodes f WHERE f.score > :score");
-        q2.setParameter("code", minScore);
+        q2.setParameter("score", minScore);
         stats = q2.getResultList();
         return stats;
     }

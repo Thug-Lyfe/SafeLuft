@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import entity.FlightInstance;
 import facades.CityConverter;
-import facades.JsonForDummies;
 import facades.SafeLufttester;
 import facades.ServiceFacade;
 import facades.UserFacade;
 import httpErrors.FlightException;
-import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -23,7 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("admin")
-//@RolesAllowed("Admin")
+@RolesAllowed("Admin")
 public class Admin {
 
     private Gson gson;
@@ -88,6 +85,13 @@ public class Admin {
     public String initializeCodes() {
         CityConverter.initialize();
         return gson.toJson(CityConverter.codesToJson(CityConverter.cityToCodes("copenhagen, denmark","London, United Kingdom")));
+    }
+    @GET
+    @Path("/score/{scores}")
+    @Produces("application/json")
+    public String getScore(@PathParam("scores") int scores) {
+        
+        return gson.toJson(CityConverter.getStatsJson(scores));
     }
     
     
